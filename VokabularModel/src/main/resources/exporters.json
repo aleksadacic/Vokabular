@@ -1,0 +1,22 @@
+[
+  {
+    "name": "businessExporters",
+    "outputPath": "F:/Workspaces/IdeaProjects/Vokabular/vokabular-business-layer/src/main/java/com/aleksadacic/business",
+    "exporters": [
+      "com.aleksadacic.generator.exporters.SpringBusinessEntity",
+      "com.aleksadacic.generator.exporters.SpringBusinessEntityBase",
+      "com.aleksadacic.generator.exporters.SpringBusinessManager",
+      "com.aleksadacic.generator.exporters.SpringBusinessManagerBase"
+    ]
+  },
+  {
+    "name": "controllerExporters",
+    "outputPath": "F:/Workspaces/IdeaProjects/Vokabular/vokabular-service-layer/src/main/java/com/aleksadacic/controller",
+    "exporters": [
+      "com.aleksadacic.generator.exporters.SpringEntityControllerBase",
+      "com.aleksadacic.generator.exporters.SpringEntityController",
+      "com.aleksadacic.generator.exporters.SpringEntityService",
+      "com.aleksadacic.generator.exporters.SpringControllerEntityDto"
+    ]
+  }
+]
