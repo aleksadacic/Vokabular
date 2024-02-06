@@ -34,7 +34,6 @@ public class UserController {
     @PostMapping(value = "/login")
     public ResponseEntity<?> login(@RequestBody LoginRequest loginReq) {
         try {
-            appManager.login("", "");
             Authentication authentication =
                     manager.authenticate(new UsernamePasswordAuthenticationToken(loginReq.getUsername(), loginReq.getPassword()));
             String email = authentication.getName();

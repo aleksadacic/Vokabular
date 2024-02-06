@@ -76,7 +76,6 @@
             <groupId>com.aleksadacic.vokabular</groupId>
             <artifactId>vokabular-business-layer</artifactId>
             <version>0.0.1</version>
-            <scope>compile</scope>
         </dependency>
     </dependencies>
 

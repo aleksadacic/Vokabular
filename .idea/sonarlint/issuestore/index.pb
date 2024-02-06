@@ -73,9 +73,3 @@ lvokabular-data-layer-postgresql/src/main/java/com/aleksadacic/data/postgresql/A
 ovokabular-data-layer-postgresql/src/main/java/com/aleksadacic/data/postgresql/PostgrePersistenceDispatcher.java,c\2\c2c2e9473238506b50ec92ac02add7b3edaad2bf
 •
 evokabular-data-layer-postgresql/src/main/java/com/aleksadacic/data/postgresql/utils/ManagerUtils.java,e\9\e9201f2a74c5d1f741a2066c55844488191e8326
-š
-jvokabular-data-layer/src/main/java/com/aleksadacic/vokabular/data/PersistenceImplementationDispatcher.java,a\6\a6ab10dfb6a8addae8e0d3a84c2e6231fe6cc1e8
-W
-'vokabular-data-layer-postgresql/pom.xml,3\2\32198028fd14db146205c4caa9ea91001cc67b6e
-F
-VokabularModel/pom.xml,7\8\78da3cf910ef6621464933a7cb22954d3a4ef7d4
