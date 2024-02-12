@@ -7,6 +7,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 class VokabularServiceLayerTests {
     @Test
     void contextLoads() {
+
     }
 
 }

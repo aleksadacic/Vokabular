@@ -10,8 +10,9 @@
 
     <modules>
         <module>VokabularModel</module>
-        <module>vokabular-business-layer</module>
         <module>vokabular-data-layer-postgresql</module>
         <module>vokabular-data-layer</module>
+        <module>vokabular-business-layer</module>
+        <module>vokabular-service-layer</module>
     </modules>
 </project>

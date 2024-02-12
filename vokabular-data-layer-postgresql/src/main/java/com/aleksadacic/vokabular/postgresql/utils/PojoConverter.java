@@ -1,4 +1,4 @@
-package com.aleksadacic.data.postgresql.utils;
+package com.aleksadacic.vokabular.postgresql.utils;
 
 import org.modelmapper.ModelMapper;
 

@@ -1,4 +1,4 @@
-package com.aleksadacic.data.postgresql.utils;
+package com.aleksadacic.vokabular.postgresql.utils;
 
 public class ManagerUtils {
     private ManagerUtils() {

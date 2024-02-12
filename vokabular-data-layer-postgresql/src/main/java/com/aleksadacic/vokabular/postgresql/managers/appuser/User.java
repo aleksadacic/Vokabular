@@ -1,4 +1,4 @@
-package com.aleksadacic.data.postgresql;
+package com.aleksadacic.vokabular.postgresql.managers.appuser;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
