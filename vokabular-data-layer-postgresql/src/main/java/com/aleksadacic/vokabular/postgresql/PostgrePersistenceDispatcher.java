@@ -7,7 +7,7 @@ import com.aleksadacic.vokabular.postgresql.managers.appuser.AppUserPersistenceM
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-@Component("postgresql")
+@Component
 public class PostgrePersistenceDispatcher implements PersistenceDispatcher {
     @Autowired
     AppUserPersistenceManager persistenceManager;
@@ -15,10 +15,7 @@ public class PostgrePersistenceDispatcher implements PersistenceDispatcher {
     @Override
     public <T extends BusinessEntity> PersistenceManager<T> getPersistenceManager(Class<T> clazz) {
         try {
-//            Class<?> pmClass = ClassUtils.findPersistenceManagerClass(clazz);
-//            return AppUserPersistenceManager.class.getDeclaredConstructor().newInstance();
             return (PersistenceManager<T>) persistenceManager;
-//            return (PersistenceManager) pmClass.getDeclaredConstructor().newInstance();
         } catch (Exception e) {
             return null;
         }

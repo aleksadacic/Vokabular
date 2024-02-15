@@ -6,8 +6,6 @@ import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 @SpringBootApplication(scanBasePackages = "com.aleksadacic")
-@EntityScan(basePackages = "com.aleksadacic")
-@EnableJpaRepositories(basePackages = "com.aleksadacic")
 public class VokabularApplication {
     public static void main(String[] args) {
         SpringApplication.run(VokabularApplication.class, args);
