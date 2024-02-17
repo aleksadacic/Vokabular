@@ -1,35 +1,32 @@
 package com.aleksadacic.vokabular.business;
 
+import com.aleksadacic.engine.exceptions.TurboException;
+import com.aleksadacic.engine.exceptions.UserNotAuthenticatedException;
+import com.aleksadacic.engine.framework.SpringContextAware;
+import com.aleksadacic.engine.framework.business.BusinessEntity;
+import com.aleksadacic.engine.framework.persistence.PersistenceManager;
+import com.aleksadacic.engine.framework.persistence.SpringPersistenceDispatcher;
 import com.aleksadacic.engine.user.AppUser;
 import com.aleksadacic.vokabular.business.users.AuthManager;
-import org.springframework.beans.BeansException;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.ApplicationContextAware;
-import org.springframework.lang.Nullable;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 
 @Component
-public class SpringContext implements ApplicationContextAware {
-    private static ApplicationContext context;
+public class SpringContext extends SpringContextAware {
 
-    @Override
-    public void setApplicationContext(@Nullable ApplicationContext applicationContext) throws BeansException {
-        context = applicationContext;
-    }
-
-    public static <T> T getBean(Class<T> beanClass) {
-        return context.getBean(beanClass);
-    }
-
-    public static AppUser getCurrentUser() {
+    public static AppUser getCurrentUser() throws TurboException {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         AuthManager manager = context.getBean(AuthManager.class);
         if (!(authentication instanceof AnonymousAuthenticationToken)) {
             return manager.getByUsername(authentication.getName());
         }
-        return null;
+        throw new UserNotAuthenticatedException();
+    }
+
+    public static <T extends BusinessEntity> PersistenceManager<T> getPersistenceManager(Class<T> clazz) {
+        SpringPersistenceDispatcher dispatcher = context.getBean(SpringPersistenceDispatcher.class);
+        return dispatcher.getPersistenceManager(clazz);
     }
 }

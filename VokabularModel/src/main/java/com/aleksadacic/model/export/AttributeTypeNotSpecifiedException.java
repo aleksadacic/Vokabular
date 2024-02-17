@@ -1,12 +1,12 @@
 package com.aleksadacic.model.export;
 
-public class AttributeTypeNotSpecifiedException extends Exception {
-    //TODO neki apstraktni excpetion s tipovima kao ecmexc
+import com.aleksadacic.engine.exceptions.TurboException;
+
+public class AttributeTypeNotSpecifiedException extends TurboException {
     private final String type;
 
     public AttributeTypeNotSpecifiedException(String type) {
         this.type = type;
-
     }
 
     @Override

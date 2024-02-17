@@ -1,5 +1,6 @@
 package com.aleksadacic.vokabular.service.security;
 
+import com.aleksadacic.engine.exceptions.TurboException;
 import com.aleksadacic.engine.user.AppUser;
 import com.aleksadacic.vokabular.business.users.AuthManager;
 import lombok.RequiredArgsConstructor;
@@ -15,11 +16,12 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     private final AuthManager manager;
 
     @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        AppUser user = manager.getByUsername(username);
-        if (user == null) {
+    public UserDetails loadUserByUsername(String username) {
+        try {
+            AppUser user = manager.getByUsername(username);
+            return new CustomUserDetails(user);
+        } catch (TurboException e) {
             throw new UsernameNotFoundException(username);
         }
-        return new CustomUserDetails(user);
     }
 }

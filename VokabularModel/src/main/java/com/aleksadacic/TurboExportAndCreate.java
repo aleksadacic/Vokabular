@@ -1,5 +1,6 @@
 package com.aleksadacic;
 
+import com.aleksadacic.config.TurboCreatorConfig;
 import com.aleksadacic.creator.TurboCreator;
 import com.aleksadacic.creator.turbo.writer.Exporter;
 import com.aleksadacic.generator.utils.ExporterPojo;
@@ -14,7 +15,7 @@ import java.util.List;
 
 public class TurboExportAndCreate {
     public static void main(String[] args) throws Exception {
-        File model = ModelExporter.export("com.aleksadacic.model.entities", "src/main/resources/model.json");
+        File model = ModelExporter.export(TurboCreatorConfig.getSourcePackage(), TurboCreatorConfig.getExportFilePath());
 
         List<ExporterPojo> exporterDefinition = readExporterDefinition();
 

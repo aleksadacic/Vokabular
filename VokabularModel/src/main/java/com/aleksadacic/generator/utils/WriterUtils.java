@@ -1,12 +1,16 @@
 package com.aleksadacic.generator.utils;
 
+import com.aleksadacic.config.TurboCreatorConfig;
 import com.aleksadacic.creator.turbo.reader.ModelObject;
 import com.aleksadacic.creator.turbo.writer.file.Writer;
+import com.aleksadacic.engine.config.Config;
+import com.aleksadacic.engine.framework.SpringContextAware;
+import org.springframework.beans.factory.annotation.Autowired;
 
 public class WriterUtils {
-    public static final String BUSINESS_PACKAGE = "com.aleksadacic.business";
-    private static final String WRITER_PACKAGE = "com.aleksadacic.generator.writers";
+    public static final String BUSINESS_PACKAGE = TurboCreatorConfig.getBusinessPackage();
     private static final String PATH_DELIMITER = "/";
+
     private static final String PACKAGE_DELIMITER = ".";
 
     private WriterUtils() {

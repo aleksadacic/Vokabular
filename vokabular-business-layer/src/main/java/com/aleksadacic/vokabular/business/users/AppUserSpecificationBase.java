@@ -8,7 +8,7 @@ import com.aleksadacic.engine.user.AppUser;
 import com.aleksadacic.vokabular.business.BusinessSpecification;
 import org.springframework.data.jpa.domain.Specification;
 
-class AppUserSpecificationBase implements BusinessSpecificator<AppUser> {
+abstract class AppUserSpecificationBase implements BusinessSpecificator<AppUser> {
     private Specification<AppUser> specification;
 
     protected AppUserSpecificationBase(Filter filter) {
