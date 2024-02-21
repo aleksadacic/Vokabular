@@ -14,7 +14,7 @@ import java.util.Set;
 @Table(name = "vok_user")
 @NoArgsConstructor
 @AllArgsConstructor
-public class User implements PersistenceEntity {
+public class AppUserEntity implements PersistenceEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private String id;
@@ -24,4 +24,13 @@ public class User implements PersistenceEntity {
 
     @ManyToMany(fetch = FetchType.EAGER)
     private Set<UserRole> roles = new HashSet<>();
+
+    @Override
+    public void setId(com.aleksadacic.engine.datatypes.Id id) {
+        this.id = id.getValue();
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
 }

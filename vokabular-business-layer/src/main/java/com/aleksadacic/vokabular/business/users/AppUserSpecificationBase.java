@@ -1,14 +1,14 @@
 package com.aleksadacic.vokabular.business.users;
 
 import com.aleksadacic.engine.framework.business.BusinessAttribute;
-import com.aleksadacic.engine.framework.business.BusinessSpecificator;
+import com.aleksadacic.engine.framework.business.SpecificationContainer;
 import com.aleksadacic.engine.framework.querying.Filter;
 import com.aleksadacic.engine.framework.querying.SearchOperator;
 import com.aleksadacic.engine.user.AppUser;
 import com.aleksadacic.vokabular.business.BusinessSpecification;
 import org.springframework.data.jpa.domain.Specification;
 
-abstract class AppUserSpecificationBase implements BusinessSpecificator<AppUser> {
+abstract class AppUserSpecificationBase implements SpecificationContainer<AppUser> {
     private Specification<AppUser> specification;
 
     protected AppUserSpecificationBase(Filter filter) {

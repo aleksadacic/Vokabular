@@ -14,11 +14,17 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 
 @Component
-public class SpringContext extends SpringContextAware {
+public class SpringContext {
+    private SpringContext() {
+    }
+
+    public static <T> T getBean(Class<T> beanClass) {
+        return SpringContextAware.getBean(beanClass);
+    }
 
     public static AppUser getCurrentUser() throws TurboException {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        AuthManager manager = context.getBean(AuthManager.class);
+        AuthManager manager = SpringContextAware.getBean(AuthManager.class);
         if (!(authentication instanceof AnonymousAuthenticationToken)) {
             return manager.getByUsername(authentication.getName());
         }
@@ -26,7 +32,7 @@ public class SpringContext extends SpringContextAware {
     }
 
     public static <T extends BusinessEntity> PersistenceManager<T> getPersistenceManager(Class<T> clazz) {
-        SpringPersistenceDispatcher dispatcher = context.getBean(SpringPersistenceDispatcher.class);
+        SpringPersistenceDispatcher dispatcher = SpringContextAware.getBean(SpringPersistenceDispatcher.class);
         return dispatcher.getPersistenceManager(clazz);
     }
 }

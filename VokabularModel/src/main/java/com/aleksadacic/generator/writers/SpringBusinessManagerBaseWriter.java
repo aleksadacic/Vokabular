@@ -2,7 +2,7 @@ package com.aleksadacic.generator.writers;
 
 import com.aleksadacic.creator.languages.java.writers.JavaClassWriter;
 import com.aleksadacic.creator.turbo.reader.ModelObject;
-import com.aleksadacic.engine.framework.business.BusinessEntityManager;
+import com.aleksadacic.engine.framework.business.BusinessManager;
 import com.aleksadacic.engine.user.AppUser;
 
 public class SpringBusinessManagerBaseWriter extends JavaClassWriter {
@@ -15,8 +15,9 @@ public class SpringBusinessManagerBaseWriter extends JavaClassWriter {
 
     @Override
     public void writeClassHeader() {
-        addImport(BusinessEntityManager.class.getName());
-        append(0, "abstract class " + modelObject.getName() + "ManagerBase extends BusinessEntityManager<" + modelObject.getName() + "> {");
+        addImport("com.aleksadacic.vokabular.business.AbstractBusinessManager");
+        addImport(BusinessManager.class);
+        append(0, "abstract class " + modelObject.getName() + "ManagerBase extends AbstractBusinessManager<" + modelObject.getName() + "> implements BusinessManager<T> {");
     }
 
     @Override

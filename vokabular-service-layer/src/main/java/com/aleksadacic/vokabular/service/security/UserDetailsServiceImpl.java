@@ -21,6 +21,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
             AppUser user = manager.getByUsername(username);
             return new CustomUserDetails(user);
         } catch (TurboException e) {
+            e.printStackTrace();
             throw new UsernameNotFoundException(username);
         }
     }

@@ -2,12 +2,12 @@ package com.aleksadacic.vokabular.business.users;
 
 import com.aleksadacic.engine.exceptions.DataNotFoundException;
 import com.aleksadacic.engine.exceptions.TurboException;
-import com.aleksadacic.engine.framework.business.BusinessSpecificator;
+import com.aleksadacic.engine.framework.business.DataProperties;
 import com.aleksadacic.engine.framework.business.SpecialOperation;
+import com.aleksadacic.engine.framework.business.SpecificationContainer;
 import com.aleksadacic.engine.framework.persistence.PersistenceManager;
 import com.aleksadacic.engine.framework.persistence.SpringPersistenceDispatcher;
 import com.aleksadacic.engine.user.AppUser;
-import com.aleksadacic.vokabular.business.SpringContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -32,9 +32,12 @@ public class AuthManager {
         return dispatcher.getPersistenceManager(AppUser.class);
     }
 
-    public AppUser getUnique(BusinessSpecificator<AppUser> spec) throws TurboException {
+    public AppUser getUnique(SpecificationContainer<AppUser> spec) throws TurboException {
         try {
-            return dispatcher.getPersistenceManager(AppUser.class).getData(SpringContext.getCurrentUser(), AppUser.class, spec.getSpecification()).get(0);
+            DataProperties<AppUser> properties = new DataProperties<>();
+            properties.setContainer(spec);
+            properties.setPage(0, 1);
+            return dispatcher.getPersistenceManager(AppUser.class).getData(null, AppUser.class, properties).get(0);
         } catch (IndexOutOfBoundsException e) {
             throw new DataNotFoundException();
         }

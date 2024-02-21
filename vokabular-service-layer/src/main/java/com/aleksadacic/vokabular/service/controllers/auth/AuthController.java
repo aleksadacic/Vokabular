@@ -53,6 +53,7 @@ public class AuthController {
             response.setRefreshToken(refreshToken);
             return ResponseEntity.ok(response);
         } catch (Exception e) {
+            e.printStackTrace();
             return ServiceUtils.errorResponse(e);
         }
     }
