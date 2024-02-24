@@ -1,4 +1,4 @@
-package com.aleksadacic.vokabular.postgresql.managers.appuser;
+package com.aleksadacic.vokabular.postgresql.entities.appuser;
 
 import com.aleksadacic.engine.framework.persistence.DataEntityRepository;
 import org.springframework.stereotype.Repository;

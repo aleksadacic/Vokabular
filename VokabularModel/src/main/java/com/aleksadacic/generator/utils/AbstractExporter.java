@@ -14,10 +14,12 @@ import java.util.Map;
 public abstract class AbstractExporter implements Exporter {
     private final Map<String, Object> values = new HashMap<>();
     private final Class<? extends Writer> writerClass;
+    private final String level;
 
     @SuppressWarnings("java:S5993")
-    public AbstractExporter(Class<? extends Writer> writerClass) {
+    public AbstractExporter(Class<? extends Writer> writerClass, String level) {
         this.writerClass = writerClass;
+        this.level = level;
         initDefaults();
     }
 
@@ -39,7 +41,7 @@ public abstract class AbstractExporter implements Exporter {
     public void export(List<ModelObject> modelObjects, String path) throws Exception {
         for (ModelObject modelObject : modelObjects) {
             String fullPathName = WriterUtils.createPath(path, modelObject.getName().toLowerCase());
-            String fullPackageName = WriterUtils.getPackageFromPath(fullPathName);
+            String fullPackageName = WriterUtils.getPackageFromPath(modelObject.getName(), level);
 
             Writer writer = WriterUtils.getWriter(modelObject, fullPackageName, writerClass);
             List<OutputElement> outputElements = writer.export();

@@ -2,12 +2,13 @@ package com.aleksadacic.generator.exporters;
 
 import com.aleksadacic.engine.datatypes.Id;
 import com.aleksadacic.generator.utils.AbstractExporter;
+import com.aleksadacic.generator.utils.AppLevel;
 import com.aleksadacic.generator.writers.SpringEntityControllerBaseWriter;
 
 @SuppressWarnings("unused")
 public class SpringEntityControllerBase extends AbstractExporter {
     public SpringEntityControllerBase() {
-        super(SpringEntityControllerBaseWriter.class);
+        super(SpringEntityControllerBaseWriter.class, AppLevel.SERVICE.getName());
         setObjectSuffix("ControllerBase");
         setOverwrite(true);
     }

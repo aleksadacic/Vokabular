@@ -24,11 +24,10 @@ public class SpringEntityAttributeWriter extends JavaClassWriter {
         for (ModelObjectAttribute attribute : modelObject.getAttributes()) {
             append(1, attribute.getName().toUpperCase() + "(\"" + attribute.getName() + "\"),");
         }
-        append(1, "ID(\"id\");");
+        append(1, ";");
         appendBlankLine();
         append(1, "private final String name;");
-        appendBlankLine();
-        append(1, "AppUserAttribute(String name) {");
+        append(1, modelObject.getName() + "Attribute(String name) {");
         append(2, "this.name = name;");
         append(1, "}");
         appendBlankLine();
@@ -37,6 +36,13 @@ public class SpringEntityAttributeWriter extends JavaClassWriter {
         append(2, "return name;");
         append(1, "}");
         appendBlankLine();
+        append(1, "public static BusinessAttribute getByName(String name) {");
+        append(2, "for (BusinessAttribute attribute : values()) {");
+        append(3, "if (attribute.getName().equals(name))");
+        append(4, "return attribute;");
+        append(3, "}");
+        append(2, "return null;");
+        append(1, "}");
         append(0, "}");
     }
 }

@@ -15,10 +15,8 @@ public class SpringPersistenceRepositoryWriter extends AbstractWriter {
     @Override
     public void writeClassHeader() {
         addImport(Repository.class);
-        addImport(DataEntityRepository.class);
-        addImport(Optional.class);
         append(0, "@Repository");
-        append(0, "public interface " + modelObject.getName() + "Repository extends " + modelObject.getName() + " RepositoryBase {");
+        append(0, "public interface " + modelObject.getName() + "Repository extends " + modelObject.getName() + "RepositoryBase {");
     }
 
     @Override

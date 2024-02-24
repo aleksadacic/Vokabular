@@ -12,7 +12,7 @@ public class PostgrePersistenceDispatcher implements PersistenceDispatcher {
     @SuppressWarnings("unchecked")
     public <T extends BusinessEntity> PersistenceManager<T> getPersistenceManager(Class<T> clazz) {
         try {
-            return (PersistenceManager<T>) SpringContextAware.getBean(Class.forName(this.getClass().getPackageName() + ".managers." + clazz.getSimpleName().toLowerCase() + "." + clazz.getSimpleName() + "PersistenceManager"));
+            return (PersistenceManager<T>) SpringContextAware.getBean(Class.forName(this.getClass().getPackageName() + ".entities." + clazz.getSimpleName().toLowerCase() + "." + clazz.getSimpleName() + "PersistenceManager"));
         } catch (Exception e) {
             e.printStackTrace();
             return null;

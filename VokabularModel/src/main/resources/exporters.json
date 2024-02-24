@@ -1,7 +1,7 @@
 [
   {
     "name": "businessExporters",
-    "outputPath": "F:/Workspaces/IdeaProjects/Vokabular/vokabular-business-layer/src/main/java/com/aleksadacic/vokabular/business",
+    "outputPath": "F:/Workspaces/IdeaProjects/Vokabular/vokabular-business-layer/src/main/java/com/aleksadacic/vokabular/business/entities",
     "exporters": [
       "com.aleksadacic.generator.exporters.SpringBusinessEntity",
       "com.aleksadacic.generator.exporters.SpringBusinessEntityBase",
@@ -14,23 +14,24 @@
   },
   {
     "name": "controllerExporters",
-    "outputPath": "F:/Workspaces/IdeaProjects/Vokabular/vokabular-service-layer/src/main/java/com/aleksadacic/vokabular/controller",
+    "outputPath": "F:/Workspaces/IdeaProjects/Vokabular/vokabular-service-layer/src/main/java/com/aleksadacic/vokabular/controller/entities",
     "exporters": [
       "com.aleksadacic.generator.exporters.SpringEntityControllerBase",
       "com.aleksadacic.generator.exporters.SpringEntityController",
       "com.aleksadacic.generator.exporters.SpringEntityService",
-      "com.aleksadacic.generator.exporters.SpringControllerEntityDto"
+      "com.aleksadacic.generator.exporters.SpringControllerEntityDto",
+      "com.aleksadacic.generator.exporters.SpringEntityControllerSearchDto"
     ]
   },
   {
     "name": "persistenceExporters",
-    "outputPath": "F:/Workspaces/IdeaProjects/Vokabular/vokabular-data-layer-postgresql/src/main/java/com/aleksadacic/vokabular/postgresql",
+    "outputPath": "F:/Workspaces/IdeaProjects/Vokabular/vokabular-data-layer-postgresql/src/main/java/com/aleksadacic/vokabular/postgresql/entities",
     "exporters": [
       "com.aleksadacic.generator.exporters.SpringPersistenceEntity",
       "com.aleksadacic.generator.exporters.SpringPersistenceManager",
       "com.aleksadacic.generator.exporters.SpringPersistenceManagerBase",
-      "com.aleksadacic.generator.exporters.SpringPersistenceEntityRepository",
-      "com.aleksadacic.generator.exporters.SpringPersistenceEntityRepositoryBase"
+      "com.aleksadacic.generator.exporters.SpringPersistenceRepository",
+      "com.aleksadacic.generator.exporters.SpringPersistenceRepositoryBase"
     ]
   }
 ]

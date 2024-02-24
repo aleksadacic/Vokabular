@@ -27,6 +27,8 @@ public class BusinessSpecification<T extends BusinessEntity> implements Specific
         }
 
         switch (filter.getOperation()) {
+            case EMPTY_FILTER:
+                return builder.isTrue(builder.literal(true));
             case GTE:
                 return builder.greaterThanOrEqualTo(root.get(filter.getKey()), value);
             case GT:

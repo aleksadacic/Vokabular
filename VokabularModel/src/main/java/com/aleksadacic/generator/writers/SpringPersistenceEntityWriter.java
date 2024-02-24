@@ -1,35 +1,15 @@
 package com.aleksadacic.generator.writers;
 
+import com.aleksadacic.creator.languages.java.utils.JavaUtils;
+import com.aleksadacic.creator.turbo.exceptions.TypeNotFoundException;
 import com.aleksadacic.creator.turbo.reader.ModelObject;
 import com.aleksadacic.creator.turbo.reader.ModelObjectAttribute;
+import com.aleksadacic.creator.turbo.utils.TypeDefinition;
+import com.aleksadacic.engine.datatypes.Id;
 import com.aleksadacic.engine.framework.persistence.PersistenceEntity;
+import com.aleksadacic.engine.utils.StringUtils;
 import com.aleksadacic.generator.utils.AbstractWriter;
-
-//@Data
-//@Entity
-//@Table(name = "vok_user")
-//@NoArgsConstructor
-//@AllArgsConstructor
-//public class AppUser implements PersistenceEntity {
-//    @Id
-//    @GeneratedValue(strategy = GenerationType.UUID)
-//    private String id;
-//
-//    private String username;
-//    private String password;
-//
-//    @ManyToMany(fetch = FetchType.EAGER)
-//    private Set<UserRole> roles = new HashSet<>();
-//
-//    @Override
-//    public void setId(com.aleksadacic.engine.datatypes.Id id) {
-//        this.id = id.getValue();
-//    }
-//
-//    public void setId(String id) {
-//        this.id = id;
-//    }
-//}
+import com.aleksadacic.generator.utils.WriterUtils;
 
 public class SpringPersistenceEntityWriter extends AbstractWriter {
     public SpringPersistenceEntityWriter(ModelObject modelObject, String classPackage) {
@@ -49,7 +29,7 @@ public class SpringPersistenceEntityWriter extends AbstractWriter {
         append(0, "@Table(name = \"" + modelObject.getTableName() + "\")");
         append(0, "@NoArgsConstructor");
         append(0, "@AllArgsConstructor");
-        append(0, "public interface " + modelObject.getName() + "Repository extends " + modelObject.getName() + " RepositoryBase {");
+        append(0, "public class " + modelObject.getName() + " implements PersistenceEntity {");
     }
 
     @Override
@@ -59,8 +39,25 @@ public class SpringPersistenceEntityWriter extends AbstractWriter {
         append(1, "private String id;");
 
         for (ModelObjectAttribute attribute : modelObject.getAttributes()) {
-            append(1, "private " + attribute.getType() + " " + attribute.getName());
+            try {
+                append(1, "private " + JavaUtils.getJavaType(TypeDefinition.valueOf(attribute.getType().toUpperCase())) + " " + attribute.getName() + ";");
+            } catch (TypeNotFoundException | IllegalArgumentException e) {
+                if (!attribute.getType().equals("primaryKey")) {
+                    addImport(WriterUtils.DATA_PACKAGE + "." + attribute.getName() + "." + attribute.getType());
+                    append(1, "private " + attribute.getType() + " " + StringUtils.decapitalize(attribute.getName()) + ";");
+                }
+            }
         }
+        appendBlankLine();
+
+        append(1, "@Override");
+        append(1, "public void setId(com.aleksadacic.engine.datatypes.Id id) {");
+        append(2, "this.id = id.getValue();");
+        append(3, "}");
+
+        append(1, "public void setId (String id){");
+        append(2, "this.id = id;");
+        append(1, "}");
 
         append(0, "}");
     }

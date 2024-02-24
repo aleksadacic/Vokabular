@@ -1,4 +1,4 @@
-package com.aleksadacic.vokabular.postgresql.managers.appuser;
+package com.aleksadacic.vokabular.postgresql;
 
 import com.aleksadacic.engine.datatypes.Id;
 import com.aleksadacic.engine.exceptions.DataNotFoundException;
@@ -11,7 +11,7 @@ import com.aleksadacic.engine.framework.persistence.DataEntityRepository;
 import com.aleksadacic.engine.framework.persistence.PersistenceEntity;
 import com.aleksadacic.engine.framework.persistence.PersistenceManager;
 import com.aleksadacic.engine.user.AppUser;
-import com.aleksadacic.vokabular.postgresql.utils.ObjectConverter;
+import com.aleksadacic.vokabular.postgresql.utils.DataUtils;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -25,6 +25,10 @@ public abstract class AbstractPersistenceManager<T extends BusinessEntity, P ext
     protected Class<T> businessEntityClass;
 
     protected abstract DataEntityRepository<P> getRepository();
+
+    protected abstract T convertToBusinessEntity(P source);
+
+    protected abstract P convertToPersistenceEntity(T source);
 
     protected AbstractPersistenceManager(Class<T> businessEntityClass, Class<P> persistenceEntityClass) {
         this.persistenceEntityClass = persistenceEntityClass;
@@ -45,15 +49,15 @@ public abstract class AbstractPersistenceManager<T extends BusinessEntity, P ext
 
     @Override
     public Page<T> getPageData(AppUser user, Class<T> clazz, DataProperties<T> properties) throws TurboException {
-        Specification<P> dataSpec = ObjectConverter.copySpecification(properties.getSpecification());
+        Specification<P> dataSpec = DataUtils.copySpecification(properties.getSpecification());
         Pageable page = createPageable(properties);
         Page<P> data = getRepository().findAll(dataSpec, page);
-        return data.map(e -> ObjectConverter.convert(e, clazz));
+        return data.map(this::convertToBusinessEntity);
     }
 
     @Override
     public List<T> getData(AppUser user, Class<T> clazz, DataProperties<T> properties) throws TurboException {
-        Specification<P> userSpecification = ObjectConverter.copySpecification(properties.getSpecification());
+        Specification<P> userSpecification = DataUtils.copySpecification(properties.getSpecification());
         List<P> all;
         try {
             Pageable page = createPageable(properties);
@@ -64,7 +68,7 @@ public abstract class AbstractPersistenceManager<T extends BusinessEntity, P ext
         }
         List<T> businessData = new ArrayList<>();
         for (P instance : all) {
-            businessData.add(ObjectConverter.convert(instance, clazz));
+            businessData.add(convertToBusinessEntity(instance));
         }
         return businessData;
     }
@@ -72,16 +76,13 @@ public abstract class AbstractPersistenceManager<T extends BusinessEntity, P ext
     @Override
     public Optional<T> getById(AppUser user, Class<T> clazz, Id primaryKey) throws TurboException {
         Optional<P> dataObject = getRepository().findById(primaryKey.getValue());
-        if (dataObject.isPresent()) {
-            return Optional.ofNullable(ObjectConverter.convert(dataObject, clazz));
-        }
-        return Optional.empty();
+        return dataObject.map(this::convertToBusinessEntity);
     }
 
     @Override
     public long count(AppUser user, Class<T> clazz, Specification<T> spec) throws TurboException {
         try {
-            Specification<P> dataSpec = ObjectConverter.copySpecification(spec);
+            Specification<P> dataSpec = DataUtils.copySpecification(spec);
             return getRepository().count(dataSpec);
         } catch (Exception e) {
             throw new PersistenceException(e);
@@ -89,29 +90,30 @@ public abstract class AbstractPersistenceManager<T extends BusinessEntity, P ext
     }
 
     @Override
-    public T insert(AppUser user, Class<T> clazz, BusinessEntity entity) throws TurboException {
+    public T insert(AppUser user, T entity) throws TurboException {
         try {
-            P insert = ObjectConverter.convert(entity, persistenceEntityClass);
+            P insert = convertToPersistenceEntity(entity);
             insert = getRepository().save(insert);
-            return ObjectConverter.convert(insert, clazz);
+            return convertToBusinessEntity(insert);
         } catch (Exception e) {
             throw new PersistenceException(e);
         }
     }
 
     @Override
-    public T update(AppUser user, Class<T> clazz, Id primaryKey, BusinessEntity entity) throws TurboException {
+    public T update(AppUser user, Id primaryKey, T entity) throws TurboException {
         try {
-            if (getRepository().existsById(primaryKey.getValue())) {
+            if (!getRepository().existsById(primaryKey.getValue())) {
                 throw new DataNotFoundException();
             }
-            P update = ObjectConverter.convert(entity, persistenceEntityClass);
-            update.setId(primaryKey);
+            P update = convertToPersistenceEntity(entity);
+            update.setId(primaryKey.getValue());
             update = getRepository().save(update);
-            return ObjectConverter.convert(update, clazz);
+            return convertToBusinessEntity(update);
         } catch (PersistenceException e) {
             throw e;
         } catch (Exception e) {
+            e.printStackTrace();
             throw new PersistenceException(e);
         }
     }

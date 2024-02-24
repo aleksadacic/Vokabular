@@ -1,4 +1,4 @@
-package com.aleksadacic.vokabular.service.controllers.auth;
+package com.aleksadacic.vokabular.service.auth;
 
 import lombok.Data;
 

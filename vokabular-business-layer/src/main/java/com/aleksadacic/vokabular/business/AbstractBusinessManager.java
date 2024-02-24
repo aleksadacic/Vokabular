@@ -9,17 +9,19 @@ import com.aleksadacic.engine.framework.business.DataProperties;
 import com.aleksadacic.engine.framework.business.SpecificationContainer;
 import com.aleksadacic.engine.framework.persistence.DataOperation;
 import com.aleksadacic.engine.framework.persistence.PersistenceManager;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
 public abstract class AbstractBusinessManager<T extends BusinessEntity> implements BusinessManager<T> {
     private SpecificationContainer<T> specification;
-    private Pageable page;
+    private Pageable pageable;
     private Sort sort;
 
     protected PersistenceManager<T> getPersistenceManager(Class<T> clazz) {
@@ -27,6 +29,17 @@ public abstract class AbstractBusinessManager<T extends BusinessEntity> implemen
     }
 
     protected abstract Class<T> getEntityClass();
+
+    @Override
+    public T create() throws TurboException {
+        try {
+//            TODO defaults...
+            return getEntityClass().getDeclaredConstructor().newInstance();
+        } catch (InstantiationException | IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
+            e.printStackTrace();
+            throw new TurboException(e);
+        }
+    }
 
     @Override
     public T update(T entity) throws TurboException {
@@ -37,7 +50,7 @@ public abstract class AbstractBusinessManager<T extends BusinessEntity> implemen
             found.onBeforeSave();
             found.validateUpdate();
             found.validateSave();
-            getPersistenceManager(getEntityClass()).update(SpringContext.getCurrentUser(), getEntityClass(), entity.getId(), entity);
+            return getPersistenceManager(getEntityClass()).update(SpringContext.getCurrentUser(), entity.getId(), entity);
         }
         throw new DataNotFoundException();
     }
@@ -48,7 +61,7 @@ public abstract class AbstractBusinessManager<T extends BusinessEntity> implemen
         entity.onBeforeSave();
         entity.validateInsert();
         entity.validateSave();
-        return getPersistenceManager(getEntityClass()).insert(SpringContext.getCurrentUser(), getEntityClass(), entity);
+        return getPersistenceManager(getEntityClass()).insert(SpringContext.getCurrentUser(), entity);
     }
 
     @Override
@@ -76,13 +89,13 @@ public abstract class AbstractBusinessManager<T extends BusinessEntity> implemen
     }
 
     @Override
-    public void setPage(Pageable page) {
-        this.page = page;
+    public void setPageable(Pageable page) {
+        this.pageable = page;
     }
 
     @Override
-    public void setPage(int page, int size) {
-        this.page = PageRequest.of(page, size);
+    public void setPageable(int page, int size) {
+        this.pageable = PageRequest.of(page, size);
     }
 
     @Override
@@ -102,9 +115,20 @@ public abstract class AbstractBusinessManager<T extends BusinessEntity> implemen
     }
 
     @Override
+    public Page<T> getPageData() throws TurboException {
+        return getPersistenceManager(getEntityClass()).getPageData(SpringContext.getCurrentUser(), getEntityClass(), collectProperties());
+    }
+
+    @Override
+    public Page<T> getPageData(SpecificationContainer<T> specification) throws TurboException {
+        this.specification = specification;
+        return getPageData();
+    }
+
+    @Override
     public T getUnique(SpecificationContainer<T> spec) throws TurboException {
         try {
-            this.page = PageRequest.of(0, 1);
+            this.pageable = PageRequest.of(0, 1);
             this.specification = spec;
             return getUnique();
         } catch (IndexOutOfBoundsException e) {
@@ -129,7 +153,7 @@ public abstract class AbstractBusinessManager<T extends BusinessEntity> implemen
 
     private DataProperties<T> collectProperties() {
         DataProperties<T> properties = new DataProperties<>();
-        properties.setPage(page);
+        properties.setPage(pageable);
         properties.setSort(sort);
         properties.setContainer(specification);
         return properties;

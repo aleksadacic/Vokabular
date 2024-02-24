@@ -67,5 +67,10 @@
             <version>3.2.2</version>
             <scope>compile</scope>
         </dependency>
+        <dependency>
+            <groupId>com.aleksadacic.vokabular</groupId>
+            <artifactId>vokabular-business-layer</artifactId>
+            <version>0.0.1</version>
+        </dependency>
     </dependencies>
 </project>

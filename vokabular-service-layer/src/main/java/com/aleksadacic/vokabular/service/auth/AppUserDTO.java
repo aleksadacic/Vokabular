@@ -1,4 +1,4 @@
-package com.aleksadacic.vokabular.service.controllers.auth;
+package com.aleksadacic.vokabular.service.auth;
 
 import com.aleksadacic.engine.user.AppUserRole;
 import lombok.AllArgsConstructor;

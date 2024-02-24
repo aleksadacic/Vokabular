@@ -1,4 +1,4 @@
-package com.aleksadacic.vokabular.postgresql.managers.appuser;
+package com.aleksadacic.vokabular.postgresql.entities.appuser;
 
 import com.aleksadacic.engine.framework.persistence.PersistenceEntity;
 import jakarta.persistence.*;
@@ -26,10 +26,6 @@ public class AppUserEntity implements PersistenceEntity {
     private Set<UserRole> roles = new HashSet<>();
 
     @Override
-    public void setId(com.aleksadacic.engine.datatypes.Id id) {
-        this.id = id.getValue();
-    }
-
     public void setId(String id) {
         this.id = id;
     }
