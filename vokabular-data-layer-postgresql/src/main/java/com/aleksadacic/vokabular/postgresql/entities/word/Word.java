@@ -1,10 +1,10 @@
 package com.aleksadacic.vokabular.postgresql.entities.word;
 
-import com.aleksadacic.engine.framework.persistence.PersistenceEntity;
-import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
-import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.Data;
+import jakarta.persistence.*;
+import com.aleksadacic.engine.framework.persistence.PersistenceEntity;
 
 @Entity
 @Data
@@ -12,16 +12,15 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Word implements PersistenceEntity {
-    @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
-    private String id;
-    private String value;
-    private String type;
-    private String usage;
-    private String meaning;
+	@Id
+	@GeneratedValue(strategy = GenerationType.UUID)
+	private String id;
+	private String value;
+	private String type;
+	private String usage;
+	private String meaning;
 
-    @Override
-    public void setId(String id) {
-        this.id = id;
-    }
+	public void setId (String id){
+		this.id = id;
+	}
 }

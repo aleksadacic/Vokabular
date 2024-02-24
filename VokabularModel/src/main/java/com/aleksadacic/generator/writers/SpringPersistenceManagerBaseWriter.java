@@ -3,6 +3,7 @@ package com.aleksadacic.generator.writers;
 import com.aleksadacic.config.TurboCreatorConfig;
 import com.aleksadacic.creator.turbo.reader.ModelObject;
 import com.aleksadacic.engine.framework.persistence.DataEntityRepository;
+import com.aleksadacic.engine.utils.ConverterUtils;
 import com.aleksadacic.generator.utils.AbstractWriter;
 import com.aleksadacic.generator.utils.WriterUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +21,8 @@ public class SpringPersistenceManagerBaseWriter extends AbstractWriter {
         addImport(DataEntityRepository.class);
         addImport(Component.class);
         addImport(Autowired.class);
+        addImport("org.modelmapper.ModelMapper");
+        addImport(ConverterUtils.class);
         addImport("com.aleksadacic.vokabular.postgresql.AbstractPersistenceManager");
         append(0, "@Component");
         append(0, "public class " + modelObject.getName() + "PersistenceManagerBase extends AbstractPersistenceManager<" + businessEntity + ", " + modelObject.getName() + "> {");
@@ -43,7 +46,7 @@ public class SpringPersistenceManagerBaseWriter extends AbstractWriter {
         append(2, "ModelMapper modelMapper = new ModelMapper();");
         append(2, "modelMapper");
         append(4, ".typeMap(" + modelObject.getName() + ".class, " + WriterUtils.BUSINESS_PACKAGE + "." + modelObject.getName().toLowerCase() + "." + modelObject.getName() + ".class)");
-        append(4, ".addMappings(mapper -> mapper.using(ConverterUtils.STRING_TO_ID).map(" + modelObject.getName() + "::getId, " + WriterUtils.BUSINESS_PACKAGE + "." + modelObject.getName() + "::setId;)");
+        append(4, ".addMappings(mapper -> mapper.using(ConverterUtils.STRING_TO_ID).map(" + modelObject.getName() + "::getId, " + WriterUtils.BUSINESS_PACKAGE + "." + modelObject.getName().toLowerCase() + "." + modelObject.getName() + "::setId));");
         append(2, "return modelMapper.map(source, " + WriterUtils.BUSINESS_PACKAGE + "." + modelObject.getName().toLowerCase() + "." + modelObject.getName() + ".class);");
         append(1, "}");
         append(1, "@Override");
@@ -51,7 +54,7 @@ public class SpringPersistenceManagerBaseWriter extends AbstractWriter {
         append(2, "ModelMapper modelMapper = new ModelMapper();");
         append(2, "modelMapper");
         append(4, ".typeMap(" + WriterUtils.BUSINESS_PACKAGE + "." + modelObject.getName().toLowerCase() + "." + modelObject.getName() + ".class, " + modelObject.getName() + ".class)");
-        append(4, ".addMappings(mapper -> mapper.map(source1 -> source1.getId().getValue(), " + modelObject.getName() + "::setId;)");
+        append(4, ".addMappings(mapper -> mapper.map(source1 -> source1.getId().getValue(), " + modelObject.getName() + "::setId));");
         append(2, "return modelMapper.map(source, " + modelObject.getName() + ".class);");
         append(1, "}");
         append(0, "}");

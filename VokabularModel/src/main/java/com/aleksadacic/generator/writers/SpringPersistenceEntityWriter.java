@@ -50,11 +50,6 @@ public class SpringPersistenceEntityWriter extends AbstractWriter {
         }
         appendBlankLine();
 
-        append(1, "@Override");
-        append(1, "public void setId(com.aleksadacic.engine.datatypes.Id id) {");
-        append(2, "this.id = id.getValue();");
-        append(3, "}");
-
         append(1, "public void setId (String id){");
         append(2, "this.id = id;");
         append(1, "}");

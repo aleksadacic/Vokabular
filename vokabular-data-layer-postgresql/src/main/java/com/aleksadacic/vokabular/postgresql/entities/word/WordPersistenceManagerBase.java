@@ -1,11 +1,11 @@
 package com.aleksadacic.vokabular.postgresql.entities.word;
 
-import com.aleksadacic.engine.framework.persistence.DataEntityRepository;
-import com.aleksadacic.engine.utils.ConverterUtils;
 import com.aleksadacic.vokabular.postgresql.AbstractPersistenceManager;
+import com.aleksadacic.engine.utils.ConverterUtils;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import com.aleksadacic.engine.framework.persistence.DataEntityRepository;
 
 @Component
 public class WordPersistenceManagerBase extends AbstractPersistenceManager<com.aleksadacic.vokabular.business.entities.word.Word, Word> {

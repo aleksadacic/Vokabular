@@ -37,8 +37,7 @@ public class SpringBusinessEntityBaseWriter extends JavaClassWriter {
                 append(1, "private " + JavaUtils.getJavaType(TypeDefinition.valueOf(attribute.getType().toUpperCase())) + " " + attribute.getName() + ";");
             } catch (TypeNotFoundException | IllegalArgumentException e) {
                 if (attribute.getType().equals("primaryKey")) {
-                    addImport(Id.class.getName());
-                    append(1, "private Id " + attribute.getName() + ";");
+                    // skip, we have it in abstract business class
                 } else {
                     addImport(WriterUtils.BUSINESS_PACKAGE + "." + attribute.getName() + "." + attribute.getType());
                     append(1, "private " + attribute.getType() + " " + StringUtils.decapitalize(attribute.getName()) + ";");

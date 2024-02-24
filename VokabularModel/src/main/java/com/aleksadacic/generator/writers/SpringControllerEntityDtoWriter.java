@@ -6,6 +6,7 @@ import com.aleksadacic.creator.turbo.reader.ModelObject;
 import com.aleksadacic.creator.turbo.reader.ModelObjectAttribute;
 import com.aleksadacic.engine.datatypes.Id;
 import com.aleksadacic.engine.framework.service.DTO;
+import com.aleksadacic.engine.utils.ConverterUtils;
 import com.aleksadacic.engine.utils.StringUtils;
 import com.aleksadacic.generator.utils.AbstractWriter;
 import com.aleksadacic.generator.utils.WriterUtils;
@@ -43,6 +44,9 @@ public class SpringControllerEntityDtoWriter extends AbstractWriter {
         addImport("org.springframework.stereotype.Component");
         addImport("org.springframework.context.annotation.Scope");
         addImport(DTO.class);
+        addImport(WriterUtils.BUSINESS_PACKAGE + "." + modelObject.getName().toLowerCase() + "." + modelObject.getName());
+        addImport("org.modelmapper.ModelMapper");
+        addImport(ConverterUtils.class);
 
         append(0, "@Data");
         append(0, "@Component");
@@ -81,7 +85,7 @@ public class SpringControllerEntityDtoWriter extends AbstractWriter {
             append(2, "ModelMapper modelMapper = new ModelMapper();");
             append(2, "modelMapper");
             append(4, ".typeMap(" + modelObject.getName() + "DTO.class, " + modelObject.getName() + ".class)");
-            append(4, ".addMappings(mapper -> mapper.using(ConverterUtils.STRING_TO_ID).map(" + modelObject.getName() + "DTO::getId, " + modelObject.getName() + "DTO::setId));");
+            append(4, ".addMappings(mapper -> mapper.using(ConverterUtils.STRING_TO_ID).map(" + modelObject.getName() + "DTO::getId, " + modelObject.getName() + "::setId));");
             append(2, "return modelMapper.map(this, " + modelObject.getName() + ".class);");
             append(1, "}");
         }
