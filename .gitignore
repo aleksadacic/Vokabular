@@ -1,2 +1,5 @@
 # Project exclude paths
 /VokabularModel/target/
+/.idea/sonarlint/
+/.idea/
+/.idea/sonarlint/issuestore/

@@ -71,8 +71,6 @@ NVokabularModel/src/main/java/com/aleksadacic/generator/utils/ExporterPojo.java
 mvokabular-business-layer/src/main/java/com/aleksadacic/vokabular/business/users/AppUserSpecificationBase.java,4\a\4a4221559303babbfe784ad3409f9b709959da47
 é
 ^VokabularModel/src/main/java/com/aleksadacic/generator/writers/SpringBusinessEntityWriter.java,d\6\d6c93871cd02cfc72b2c5c9f8069c9d15849e3f4
-í
-bVokabularModel/src/main/java/com/aleksadacic/generator/writers/SpringBusinessEntityBaseWriter.java,c\5\c582b15df931287c92c487a6f93a55a9e002df47
 Ä
 PVokabularModel/src/main/java/com/aleksadacic/generator/utils/AbstractWriter.java,2\2\228ae3a673ae7ac5326648761625ee6eb52b4d83
 ê
