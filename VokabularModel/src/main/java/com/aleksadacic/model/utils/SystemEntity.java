@@ -4,6 +4,6 @@ import com.aleksadacic.engine.datatypes.Id;
 import com.aleksadacic.engine.model.annotations.ModelAttribute;
 
 public class SystemEntity {
-    @ModelAttribute(title = "id", nullable = false, unique = true, tableColumn = "id")
+    @ModelAttribute(title = "id", nullable = false, unique = true, tableColumn = "id", type = "primaryKey")
     Id id;
 }
