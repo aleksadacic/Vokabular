@@ -1,5 +1,6 @@
 package com.aleksadacic.vokabular.postgresql.entities.word;
 
+import com.aleksadacic.vokabular.postgresql.entities.type.WordType;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 import lombok.Data;
@@ -16,7 +17,7 @@ public class Word implements PersistenceEntity {
 	@GeneratedValue(strategy = GenerationType.UUID)
 	private String id;
 	private String value;
-	private String type;
+	private WordType type;
 	private String usage;
 	private String meaning;
 

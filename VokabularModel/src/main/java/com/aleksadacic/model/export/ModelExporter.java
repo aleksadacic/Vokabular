@@ -2,23 +2,30 @@ package com.aleksadacic.model.export;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 
 public class ModelExporter {
     private ModelExporter() {
     }
 
     public static File export(String sourcePackage, String destinationPath) throws IOException, ClassNotFoundException, AttributeTypeNotSpecifiedException {
-        List<Class<?>> classes = ModelReader.getClassesInPackage(sourcePackage);
+        Map<String, List<Class<?>>> all = ModelReader.getClassesInPackage(sourcePackage);
 
         ObjectMapper objectMapper = new ObjectMapper();
-        ArrayNode entities = collectModelEntities(classes, objectMapper);
-        String json = objectMapper.writeValueAsString(entities);
+        ArrayNode entities = collectModelEntities(all.get("classes"), objectMapper);
+        ArrayNode enums = collectModelEnums(all.get("enums"), objectMapper);
+        ObjectNode rootNode = objectMapper.createObjectNode();
+        rootNode.set("entities", entities);
+        rootNode.set("enums", enums);
+
+        String json = objectMapper.writeValueAsString(rootNode);
         return writeFile(json, destinationPath);
     }
 
@@ -39,10 +46,18 @@ public class ModelExporter {
         }
     }
 
-    private static ArrayNode collectModelEntities(List<Class<?>> classes, ObjectMapper objectMapper) throws AttributeTypeNotSpecifiedException {
+    private static ArrayNode collectModelEntities(List<Class<?>> classes, ObjectMapper objectMapper) {
         ArrayNode jsonArray = objectMapper.createArrayNode();
         for (Class<?> clazz : classes) {
             jsonArray.add(ModelClassToJsonExporter.export(clazz));
+        }
+        return jsonArray;
+    }
+
+    private static ArrayNode collectModelEnums(List<Class<?>> classes, ObjectMapper objectMapper) {
+        ArrayNode jsonArray = objectMapper.createArrayNode();
+        for (Class<?> clazz : classes) {
+            jsonArray.add(ModelEnumToJsonExporter.export(clazz));
         }
         return jsonArray;
     }

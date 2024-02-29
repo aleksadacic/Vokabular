@@ -27,11 +27,14 @@ public class TurboExportAndCreate {
 
     private static List<Exporter> getExporters(ExporterPojo item) throws Exception {
         List<Exporter> exporters = new ArrayList<>();
+        System.out.println(item.getName() + ": ");
         for (String exporterName : item.getExporters()) {
+            System.out.println(exporterName);
             Class<?> exporterClass = Class.forName(exporterName);
             Exporter exporter = (Exporter) exporterClass.getConstructor().newInstance();
             exporters.add(exporter);
         }
+        System.out.println();
         return exporters;
     }
 

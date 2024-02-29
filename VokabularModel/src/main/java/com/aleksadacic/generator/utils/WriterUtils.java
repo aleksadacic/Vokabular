@@ -1,6 +1,7 @@
 package com.aleksadacic.generator.utils;
 
 import com.aleksadacic.config.TurboCreatorConfig;
+import com.aleksadacic.creator.turbo.reader.ModelEnumObject;
 import com.aleksadacic.creator.turbo.reader.ModelObject;
 import com.aleksadacic.creator.turbo.writer.file.Writer;
 
@@ -18,6 +19,11 @@ public class WriterUtils {
 
     public static Writer getWriter(ModelObject modelObject, String fullPackageName, Class<? extends Writer> clazz) throws Exception {
         return clazz.getConstructor(ModelObject.class, String.class)
+                .newInstance(modelObject, fullPackageName);
+    }
+
+    public static Writer getWriter(ModelEnumObject modelObject, String fullPackageName, Class<? extends Writer> clazz) throws Exception {
+        return clazz.getConstructor(ModelEnumObject.class, String.class)
                 .newInstance(modelObject, fullPackageName);
     }
 

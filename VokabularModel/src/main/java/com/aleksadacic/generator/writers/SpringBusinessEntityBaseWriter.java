@@ -46,7 +46,7 @@ public class SpringBusinessEntityBaseWriter extends JavaClassWriter {
                 if (attribute.getType().equals("primaryKey")) {
                     // skip, we have it in abstract business class
                 } else {
-                    addImport(WriterUtils.BUSINESS_PACKAGE + "." + attribute.getName() + "." + attribute.getType());
+                    addImport(WriterUtils.BUSINESS_PACKAGE.replace("entities", "enums") + "." + attribute.getType().toLowerCase() + "." + attribute.getType());
                     append(1, "private " + attribute.getType() + " " + StringUtils.decapitalize(attribute.getName()) + ";");
                 }
             }
@@ -84,8 +84,8 @@ public class SpringBusinessEntityBaseWriter extends JavaClassWriter {
             } else {
                 try {
                     append(3, "case " + attribute.getName().toUpperCase() + " -> set" + StringUtils.capitalize(attribute.getName()) + "((" + JavaUtils.getJavaType(attribute) + ") value);");
-                } catch (TypeNotFoundException e) {
-                    e.printStackTrace();
+                } catch (TypeNotFoundException | IllegalArgumentException e) {
+                    append(3, "case " + attribute.getName().toUpperCase() + " -> set" + StringUtils.capitalize(attribute.getName()) + "((" + attribute.getType() + ") value);");
                 }
             }
         }
