@@ -15,7 +15,7 @@ public class ModelExporter {
     private ModelExporter() {
     }
 
-    public static File export(String sourcePackage, String destinationPath) throws IOException, ClassNotFoundException, AttributeTypeNotSpecifiedException {
+    public static File export(String sourcePackage, String destinationPath) throws IOException, ClassNotFoundException {
         Map<String, List<Class<?>>> all = ModelReader.getClassesInPackage(sourcePackage);
 
         ObjectMapper objectMapper = new ObjectMapper();

@@ -1,8 +1,11 @@
 package com.aleksadacic.generator.writers;
 
 import com.aleksadacic.creator.turbo.reader.ModelObject;
+import com.aleksadacic.engine.dataimport.ImportDTO;
 import com.aleksadacic.engine.utils.StringUtils;
 import com.aleksadacic.generator.utils.AbstractWriter;
+
+import java.util.logging.Logger;
 
 public class SpringEntityServiceWriter extends AbstractWriter {
     public SpringEntityServiceWriter(ModelObject modelObject, String classPackage) {
@@ -11,8 +14,6 @@ public class SpringEntityServiceWriter extends AbstractWriter {
 
     @Override
     public void writeClassHeader() {
-        addImport("org.springframework.web.bind.annotation.*;");
-
         append(0, "@RestController");
         append(0, "@RequestMapping(\"/api/" + StringUtils.decapitalize(modelObject.getName()) + "\")");
         append(0, "public class " + modelObject.getName() + "Service extends " + modelObject.getName() + "Controller {");
@@ -68,6 +69,12 @@ public class SpringEntityServiceWriter extends AbstractWriter {
         append(1, "@PostMapping(value = \"/getData\", produces = MediaType.APPLICATION_JSON_VALUE)");
         append(1, "public ResponseEntity<?> getData(" + modelObject.getName() + "SearchDTO request) {");
         append(2, "return super.getData(request);");
+        append(1, "}");
+        append(1, "@Override");
+        append(1, "@PostMapping(value = \"/importData\", produces = MediaType.APPLICATION_JSON_VALUE)");
+        addImport(ImportDTO.class);
+        append(1, "public ResponseEntity<?> importData(ImportDTO request) {");
+        append(2, "return super.importData(request);");
         append(1, "}");
         append(0, "}");
 

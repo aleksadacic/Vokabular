@@ -3,7 +3,6 @@ package com.aleksadacic.generator.utils;
 import com.aleksadacic.creator.languages.java.JavaOutputFile;
 import com.aleksadacic.creator.turbo.reader.ExportObject;
 import com.aleksadacic.creator.turbo.reader.ModelEnumObject;
-import com.aleksadacic.creator.turbo.reader.ModelObject;
 import com.aleksadacic.creator.turbo.writer.Exporter;
 import com.aleksadacic.creator.turbo.writer.ExporterType;
 import com.aleksadacic.creator.turbo.writer.elements.OutputElement;
@@ -49,7 +48,7 @@ public abstract class AbstractEnumExporter implements Exporter {
     public void export(List<ExportObject> modelObjects, String path) throws Exception {
         for (ExportObject modelObject : modelObjects) {
             String fullPathName = WriterUtils.createPath(path, ((ModelEnumObject) modelObject).getName().toLowerCase());
-            String fullPackageName = WriterUtils.getPackageFromPath(((ModelEnumObject) modelObject).getName(), level).replaceAll("entities", "enums");
+            String fullPackageName = WriterUtils.getPackageFromPath(((ModelEnumObject) modelObject).getName(), level);
 
             Writer writer = WriterUtils.getWriter(((ModelEnumObject) modelObject), fullPackageName, writerClass);
             List<OutputElement> outputElements = writer.export();

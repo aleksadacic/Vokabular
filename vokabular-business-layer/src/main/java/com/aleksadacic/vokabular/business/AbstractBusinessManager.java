@@ -33,7 +33,6 @@ public abstract class AbstractBusinessManager<T extends BusinessEntity> implemen
     @Override
     public T create() throws TurboException {
         try {
-//            TODO defaults...
             return getEntityClass().getDeclaredConstructor().newInstance();
         } catch (InstantiationException | IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
             e.printStackTrace();

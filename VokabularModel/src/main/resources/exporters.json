@@ -9,7 +9,8 @@
       "com.aleksadacic.generator.exporters.SpringBusinessManagerBase",
       "com.aleksadacic.generator.exporters.SpringEntityAttribute",
       "com.aleksadacic.generator.exporters.SpringEntitySpecification",
-      "com.aleksadacic.generator.exporters.SpringEntitySpecificationBase"
+      "com.aleksadacic.generator.exporters.SpringEntitySpecificationBase",
+      "com.aleksadacic.generator.exporters.SpringBusinessEnum"
     ]
   },
   {
@@ -31,14 +32,8 @@
       "com.aleksadacic.generator.exporters.SpringPersistenceManager",
       "com.aleksadacic.generator.exporters.SpringPersistenceManagerBase",
       "com.aleksadacic.generator.exporters.SpringPersistenceRepository",
-      "com.aleksadacic.generator.exporters.SpringPersistenceRepositoryBase"
-    ]
-  },
-  {
-    "name": "enumExporters",
-    "outputPath": "F:/Workspaces/IdeaProjects/Vokabular/vokabular-business-layer/src/main/java/com/aleksadacic/vokabular/business/enums",
-    "exporters": [
-      "com.aleksadacic.generator.exporters.SpringBusinessEnum"
+      "com.aleksadacic.generator.exporters.SpringPersistenceRepositoryBase",
+      "com.aleksadacic.generator.exporters.SpringPersistenceEnum"
     ]
   }
 ]

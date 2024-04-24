@@ -1,4 +1,4 @@
-package com.aleksadacic.vokabular.business.enums.wordtype;
+package com.aleksadacic.vokabular.postgresql.entities.wordtype;
 
 public enum WordType {
 	IMENICA("imenica"),

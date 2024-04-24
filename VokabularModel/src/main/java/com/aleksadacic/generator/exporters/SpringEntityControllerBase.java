@@ -1,6 +1,5 @@
 package com.aleksadacic.generator.exporters;
 
-import com.aleksadacic.engine.datatypes.Id;
 import com.aleksadacic.generator.utils.AbstractExporter;
 import com.aleksadacic.generator.utils.AppLevel;
 import com.aleksadacic.generator.writers.SpringEntityControllerBaseWriter;

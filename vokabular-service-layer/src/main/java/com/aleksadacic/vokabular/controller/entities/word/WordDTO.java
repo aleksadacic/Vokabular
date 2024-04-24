@@ -1,6 +1,6 @@
 package com.aleksadacic.vokabular.controller.entities.word;
 
-import com.aleksadacic.vokabular.business.entities.type.WordType;
+import com.aleksadacic.vokabular.business.entities.wordtype.WordType;
 import com.aleksadacic.engine.datatypes.Id;
 import jakarta.validation.constraints.*;
 import com.aleksadacic.engine.utils.ConverterUtils;
@@ -16,7 +16,7 @@ import lombok.Data;
 @Scope("prototype")
 public class WordDTO implements DTO<Word> {
 	private Id id;
-	private @Min(2) @Max(200) String value;
+	private @NotEmpty @Min(2) @Max(200) String value;
 	private WordType type;
 	private String usage;
 	private String meaning;

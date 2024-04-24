@@ -1,10 +1,10 @@
 package com.aleksadacic.vokabular.controller.entities.word;
 
+import com.aleksadacic.engine.dataimport.ImportDTO;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.lang.NonNull;
-import org.springframework.web.bind.annotation.*;;
 
 @RestController
 @RequestMapping("/api/word")
@@ -53,5 +53,10 @@ public class WordService extends WordController {
 	@PostMapping(value = "/getData", produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<?> getData(WordSearchDTO request) {
 		return super.getData(request);
+	}
+	@Override
+	@PostMapping(value = "/importData", produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<?> importData(ImportDTO request) {
+		return super.importData(request);
 	}
 }

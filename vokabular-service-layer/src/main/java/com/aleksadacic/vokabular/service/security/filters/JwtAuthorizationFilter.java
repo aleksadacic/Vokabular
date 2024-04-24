@@ -3,6 +3,7 @@ package com.aleksadacic.vokabular.service.security.filters;
 import com.aleksadacic.vokabular.service.security.CustomUserDetails;
 import com.aleksadacic.vokabular.service.security.UserDetailsServiceImpl;
 import com.aleksadacic.vokabular.service.utils.JwtUtil;
+import io.micrometer.common.lang.NonNullApi;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -20,6 +21,7 @@ import java.io.IOException;
 
 @Component
 @RequiredArgsConstructor
+@NonNullApi
 public class JwtAuthorizationFilter extends OncePerRequestFilter {
     private final JwtUtil jwtUtil;
     private final UserDetailsServiceImpl userDetailsService;

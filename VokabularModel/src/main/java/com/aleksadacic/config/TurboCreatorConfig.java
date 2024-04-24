@@ -1,14 +1,11 @@
 package com.aleksadacic.config;
 
-import com.aleksadacic.engine.config.Config;
-import com.aleksadacic.engine.framework.SpringContextAware;
-
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
 
-@SuppressWarnings("unused")
 public class TurboCreatorConfig {
+    //    TODO
     private static final Properties props = new Properties();
 
     private TurboCreatorConfig() {
@@ -27,6 +24,7 @@ public class TurboCreatorConfig {
         return (String) getProperty("pkg.business");
     }
 
+    @SuppressWarnings("unused")
     public static String getWriterPackage() {
         return (String) getProperty("pkg.writer");
     }
@@ -36,6 +34,7 @@ public class TurboCreatorConfig {
         return (String) getProperty("pkg.source");
     }
 
+    @SuppressWarnings("unused")
     public static String getExportConfigPath() {
         return (String) getProperty("resource.model.export.config");
     }
@@ -50,6 +49,11 @@ public class TurboCreatorConfig {
 
     public static String getServicePackage() {
         return (String) getProperty("pkg.service");
+    }
+
+
+    public static String getImporterPackage() {
+        return (String) getProperty("pkg.importer");
     }
 
     public static Object getProperty(String name) {

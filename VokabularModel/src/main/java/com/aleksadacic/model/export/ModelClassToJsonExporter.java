@@ -15,7 +15,6 @@ public class ModelClassToJsonExporter {
     static ObjectNode export(Class<?> clazz) {
         ObjectMapper objectMapper = new ObjectMapper();
 
-        // Create a JSON object
         ObjectNode jsonObject = objectMapper.createObjectNode();
 
         EntityUtils entityUtils = new EntityUtils(clazz);
@@ -46,7 +45,7 @@ public class ModelClassToJsonExporter {
             attribute.put("nullable", attrUtils.extractNullable());
             attribute.put("unique", attrUtils.extractUnique());
             attribute.put("tableColumn", attrUtils.extractTableColumn());
-
+            attribute.put("enumType", attrUtils.extractEnumType());
             attributes.add(attribute);
         }
     }

@@ -2,7 +2,6 @@ package com.aleksadacic.model.export;
 
 import com.aleksadacic.engine.model.annotations.ModelEntity;
 
-//TODO implements nesto po schemi iz turbo generatora
 public class EntityUtils {
     private final Class<?> clazz;
 

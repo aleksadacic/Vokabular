@@ -9,10 +9,12 @@ import com.aleksadacic.engine.framework.persistence.PersistenceManager;
 import com.aleksadacic.engine.framework.persistence.SpringPersistenceDispatcher;
 import com.aleksadacic.engine.user.AppUser;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
 @Component
 public class AuthManager {
+
     @Autowired
     private SpringPersistenceDispatcher dispatcher;
 

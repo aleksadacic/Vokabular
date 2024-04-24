@@ -9,6 +9,7 @@ public class WriterUtils {
     public static final String BUSINESS_PACKAGE = TurboCreatorConfig.getBusinessPackage();
     public static final String DATA_PACKAGE = TurboCreatorConfig.getDataPackage();
     public static final String SERVICE_PACKAGE = TurboCreatorConfig.getServicePackage();
+    public static final String IMPORTER_PACKAGE = TurboCreatorConfig.getImporterPackage();
     private static final String PATH_DELIMITER = "/";
 
     private static final String PACKAGE_DELIMITER = ".";

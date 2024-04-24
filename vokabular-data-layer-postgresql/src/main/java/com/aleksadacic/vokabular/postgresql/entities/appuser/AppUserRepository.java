@@ -6,7 +6,7 @@ import org.springframework.stereotype.Repository;
 import java.util.Optional;
 
 @Repository
+@SuppressWarnings("unused")
 public interface AppUserRepository extends DataEntityRepository<AppUserEntity> {
-    //    TODO generator sva polja da se ubace
     Optional<AppUserEntity> findByUsername(String username);
 }

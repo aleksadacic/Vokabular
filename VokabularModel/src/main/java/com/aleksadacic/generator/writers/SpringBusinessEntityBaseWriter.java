@@ -39,34 +39,26 @@ public class SpringBusinessEntityBaseWriter extends JavaClassWriter {
     @Override
     public void writeClassContent() {
         append(1, "protected static final String MODEL_TYPE = \"" + modelObject.getTableName() + "\";");
-        for (ModelObjectAttribute attribute : modelObject.getAttributes()) {
-            try {
-                append(1, "private " + JavaUtils.getJavaType(TypeDefinition.valueOf(attribute.getType().toUpperCase())) + " " + attribute.getName() + ";");
-            } catch (TypeNotFoundException | IllegalArgumentException e) {
-                if (attribute.getType().equals("primaryKey")) {
-                    // skip, we have it in abstract business class
-                } else {
-                    addImport(WriterUtils.BUSINESS_PACKAGE.replace("entities", "enums") + "." + attribute.getType().toLowerCase() + "." + attribute.getType());
-                    append(1, "private " + attribute.getType() + " " + StringUtils.decapitalize(attribute.getName()) + ";");
-                }
-            }
-        }
+        appendFields();
         appendBlankLine();
         append(1, "@Override");
         append(1, "public void validateSave() throws TurboException {");
         for (ModelObjectAttribute attribute : modelObject.getAttributes()) {
+            if (attribute.getType().equals("primaryKey")) {
+                continue;
+            }
             if (!attribute.isNullable()) {
-                append(2, "if (value == null) {");
+                append(2, "if (" + attribute.getName() + " == null) {");
                 append(3, "throw new NonNullableException();");
                 append(2, "}");
             }
             if (attribute.getMinLength() != null) {
-                append(2, "if (value.length() < " + attribute.getMinLength() + ") {");
+                append(2, "if (" + attribute.getName() + ".length() < " + attribute.getMinLength() + ") {");
                 append(3, "throw new AttributeLengthException();");
                 append(2, "}");
             }
             if (attribute.getMaxLength() != null) {
-                append(2, "if (value.length() > " + attribute.getMaxLength() + ") {");
+                append(2, "if (" + attribute.getName() + ".length() > " + attribute.getMaxLength() + ") {");
                 append(3, "throw new AttributeLengthException();");
                 append(2, "}");
             }
@@ -75,12 +67,22 @@ public class SpringBusinessEntityBaseWriter extends JavaClassWriter {
         append(1, "}");
         appendBlankLine();
         append(1, "@Override");
+        append(1, "public void validateUpdate() throws TurboException {");
+        append(2, "if (id == null) {");
+        append(3, "throw new NonNullableException();");
+        append(2, "}");
+        append(2, "super.validateInsert();");
+        append(1, "}");
+        appendBlankLine();
+        append(1, "@Override");
         append(1, "public void set(String name, Object value) {");
-        append(2, "WordAttribute attribute = (WordAttribute) WordAttribute.getByName(name);");
+        append(2, modelObject.getName() + "Attribute attribute = (" + modelObject.getName() + "Attribute) " + modelObject.getName() + "Attribute.getByName(name);");
         append(2, "switch (Objects.requireNonNull(attribute)) {");
         for (ModelObjectAttribute attribute : modelObject.getAttributes()) {
             if (attribute.getType().equals("primaryKey")) {
                 append(3, "case " + attribute.getName().toUpperCase() + " -> set" + StringUtils.capitalize(attribute.getName()) + "(Id.of(value));");
+            } else if (attribute.isEnumType()) {
+                append(3, "case " + attribute.getName().toUpperCase() + " -> set" + StringUtils.capitalize(attribute.getName()) + "(" + attribute.getType() + ".valueOf((String) value));");
             } else {
                 try {
                     append(3, "case " + attribute.getName().toUpperCase() + " -> set" + StringUtils.capitalize(attribute.getName()) + "((" + JavaUtils.getJavaType(attribute) + ") value);");
@@ -95,7 +97,7 @@ public class SpringBusinessEntityBaseWriter extends JavaClassWriter {
         appendBlankLine();
         append(1, "@Override");
         append(1, "public Object get(String name) {");
-        append(2, "WordAttribute attribute = (WordAttribute) WordAttribute.getByName(name);");
+        append(2, modelObject.getName() + "Attribute attribute = (" + modelObject.getName() + "Attribute) " + modelObject.getName() + "Attribute.getByName(name);");
         append(2, "if (attribute == null) {");
         append(3, "return super.get(name);");
         append(2, "}");
@@ -107,5 +109,18 @@ public class SpringBusinessEntityBaseWriter extends JavaClassWriter {
         append(1, "}");
 
         append(0, "}");
+    }
+
+    private void appendFields() {
+        for (ModelObjectAttribute attribute : modelObject.getAttributes()) {
+            try {
+                append(1, "private " + JavaUtils.getJavaType(TypeDefinition.valueOf(attribute.getType().toUpperCase())) + " " + attribute.getName() + ";");
+            } catch (TypeNotFoundException | IllegalArgumentException e) {
+                if (!attribute.getType().equals("primaryKey")) {
+                    addImport(WriterUtils.BUSINESS_PACKAGE + "." + attribute.getType().toLowerCase() + "." + attribute.getType());
+                    append(1, "private " + attribute.getType() + " " + StringUtils.decapitalize(attribute.getName()) + ";");
+                }
+            }
+        }
     }
 }

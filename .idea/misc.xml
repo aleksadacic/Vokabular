@@ -12,6 +12,7 @@
         <option value="$PROJECT_DIR$/vokabular-data-layer/pom.xml" />
         <option value="$PROJECT_DIR$/vokabular-data-layer-postgresql/pom.xml" />
         <option value="$PROJECT_DIR$/vokabular-service-layer/pom.xml" />
+        <option value="$PROJECT_DIR$/vokabular-data-import/pom.xml" />
       </list>
     </option>
   </component>

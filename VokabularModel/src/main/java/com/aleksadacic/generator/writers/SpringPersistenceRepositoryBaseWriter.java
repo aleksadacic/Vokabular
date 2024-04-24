@@ -28,6 +28,7 @@ public class SpringPersistenceRepositoryBaseWriter extends AbstractWriter {
         addImport(Optional.class);
         addImport(NoRepositoryBean.class);
         append(0, "@NoRepositoryBean");
+        append(0, "@SuppressWarnings(\"unused\")");
         append(0, "public interface " + modelObject.getName() + "RepositoryBase extends JpaRepository<" + modelObject.getName() + ", String>,  JpaSpecificationExecutor <" + modelObject.getName() + ">, DataEntityRepository<" + modelObject.getName() + "> {");
     }
 
@@ -38,7 +39,7 @@ public class SpringPersistenceRepositoryBaseWriter extends AbstractWriter {
                 append(1, "Optional<" + modelObject.getName() + "> findBy" + StringUtils.capitalize(attribute.getName()) + "(" + JavaUtils.getJavaType(TypeDefinition.valueOf(attribute.getType().toUpperCase())) + " " + attribute.getName() + ");");
             } catch (TypeNotFoundException | IllegalArgumentException e) {
                 if (!attribute.getType().equals("primaryKey")) {
-                    addImport(WriterUtils.DATA_PACKAGE + "." + attribute.getName() + "." + attribute.getType());
+                    addImport(WriterUtils.DATA_PACKAGE + "." + attribute.getType().toLowerCase() + "." + attribute.getType());
                     append(1, "Optional<" + modelObject.getName() + "> findBy" + StringUtils.capitalize(attribute.getName()) + "(" + attribute.getType() + " " + attribute.getName() + ");");
                 }
             }

@@ -73,7 +73,7 @@ public class SpringControllerEntityDtoWriter extends AbstractWriter {
             try {
                 field.append(JavaUtils.getJavaType(attribute)).append(" ").append(attribute.getName()).append(";");
             } catch (TypeNotFoundException | IllegalArgumentException e) {
-                addImport(WriterUtils.BUSINESS_PACKAGE + "." + attribute.getName() + "." + attribute.getType());
+                addImport(WriterUtils.BUSINESS_PACKAGE + "." + attribute.getType().toLowerCase() + "." + attribute.getType());
                 field.append(attribute.getType()).append(" ").append(StringUtils.decapitalize(attribute.getName())).append(";");
             }
             append(1, field.toString());
@@ -92,11 +92,11 @@ public class SpringControllerEntityDtoWriter extends AbstractWriter {
         append(0, "}");
     }
 
-    //    TODO jace validacije i message
 
     /**
      * @see SpringControllerEntityDtoWriter
      */
+    //    TODO jace validacije i message
     private void appendValidations(ModelObjectAttribute attribute, StringBuilder field) {
         if (canTypeHaveSize(attribute)) {
             if (!attribute.isNullable()) {

@@ -1,6 +1,6 @@
 package com.aleksadacic.vokabular.business.entities.word;
 
-import com.aleksadacic.vokabular.business.enums.wordtype.WordType;
+import com.aleksadacic.vokabular.business.entities.wordtype.WordType;
 import com.aleksadacic.engine.validations.*;
 import com.aleksadacic.engine.datatypes.Id;
 import java.util.Objects;
@@ -33,12 +33,20 @@ abstract class WordBase extends BusinessEntity {
 	}
 
 	@Override
+	public void validateUpdate() throws TurboException {
+		if (id == null) {
+			throw new NonNullableException();
+		}
+		super.validateInsert();
+	}
+
+	@Override
 	public void set(String name, Object value) {
 		WordAttribute attribute = (WordAttribute) WordAttribute.getByName(name);
 		switch (Objects.requireNonNull(attribute)) {
 			case ID -> setId(Id.of(value));
 			case VALUE -> setValue((String) value);
-			case TYPE -> setType((WordType) value);
+			case TYPE -> setType(WordType.valueOf((String) value));
 			case USAGE -> setUsage((String) value);
 			case MEANING -> setMeaning((String) value);
 			default -> super.set(name, value);

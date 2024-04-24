@@ -14,5 +14,6 @@
         <module>vokabular-data-layer</module>
         <module>vokabular-business-layer</module>
         <module>vokabular-service-layer</module>
+        <module>vokabular-data-import</module>
     </modules>
 </project>

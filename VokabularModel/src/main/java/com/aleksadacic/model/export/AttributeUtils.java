@@ -46,6 +46,7 @@ public class AttributeUtils {
         return field.getAnnotation(ModelAttribute.class).tableColumn();
     }
 
+    //TODO malo elegantnije da se smisli sve oko tipova i ovde i u turbo creator, da se vidi sta jos odavde da se prebaci u turbo creator
     public String extractType() {
         if (String.class.equals(field.getType())) {
             return "string";
@@ -60,5 +61,9 @@ public class AttributeUtils {
             return "primaryKey";
         }
         return field.getType().getSimpleName();
+    }
+
+    public boolean extractEnumType() {
+        return field.getType().isEnum();
     }
 }

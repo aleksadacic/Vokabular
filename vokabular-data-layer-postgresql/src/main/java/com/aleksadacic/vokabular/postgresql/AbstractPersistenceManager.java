@@ -21,8 +21,8 @@ import org.springframework.data.jpa.domain.Specification;
 import java.util.*;
 
 public abstract class AbstractPersistenceManager<T extends BusinessEntity, P extends PersistenceEntity> implements PersistenceManager<T> {
-    protected Class<P> persistenceEntityClass;
-    protected Class<T> businessEntityClass;
+    protected final Class<P> persistenceEntityClass;
+    protected final Class<T> businessEntityClass;
 
     protected abstract DataEntityRepository<P> getRepository();
 

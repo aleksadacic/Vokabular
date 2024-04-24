@@ -1,9 +1,15 @@
 package com.aleksadacic.generator.writers;
 
 import com.aleksadacic.creator.turbo.reader.ModelObject;
+import com.aleksadacic.engine.dataimport.ImportDTO;
+import com.aleksadacic.engine.dataimport.ImportProcedure;
 import com.aleksadacic.engine.framework.service.EntityController;
+import com.aleksadacic.engine.validations.Validation;
 import com.aleksadacic.generator.utils.AbstractWriter;
 import com.aleksadacic.generator.utils.WriterUtils;
+
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class SpringEntityControllerBaseWriter extends AbstractWriter {
 
@@ -32,6 +38,11 @@ public class SpringEntityControllerBaseWriter extends AbstractWriter {
         addImport("org.springframework.data.domain.Sort");
         addImport("org.springframework.http.ResponseEntity");
         addImport("java.util.Optional");
+        addImport(Validation.class);
+        addImport(Logger.class);
+        addImport(Level.class);
+        append(1, "private static final Logger logger = Logger.getLogger(" + modelObject.getName() + "ControllerBase.class.getSimpleName());");
+        appendBlankLine();
         append(1, "@Autowired");
         append(1, "protected " + modelObject.getName() + "Manager manager;");
         append(1, "@Override");
@@ -50,6 +61,7 @@ public class SpringEntityControllerBaseWriter extends AbstractWriter {
         append(3, "if (entity == null) {");
         append(4, "throw new BadParametersException();");
         append(3, "}");
+        append(3, "Validation.validate(request);");
         append(3, "return ResponseEntity.ok(manager.insert(entity));");
         append(2, "} catch (Exception e) {");
         append(3, "e.printStackTrace();");
@@ -63,6 +75,7 @@ public class SpringEntityControllerBaseWriter extends AbstractWriter {
         append(3, "if (entity == null) {");
         append(4, "throw new ServiceException();");
         append(3, "}");
+        append(3, "Validation.validate(request);");
         append(3, "return ResponseEntity.ok(manager.update(entity));");
         append(2, "} catch (Exception e) {");
         append(3, "e.printStackTrace();");
@@ -91,7 +104,7 @@ public class SpringEntityControllerBaseWriter extends AbstractWriter {
         append(3, "}");
         append(3, "" + modelObject.getName() + "Specification specification = request.buildSpecification();");
         append(3, "if (request.getSort() != null && !request.getSort().isEmpty()) {");
-        append(4, "manager.setSort(Sort.by((String[]) request.getSort().toArray()));");
+        append(4, "manager.setSort(Sort.by(request.getSort().toArray(new String[0])));");
         append(3, "}");
         append(3, "return ResponseEntity.ok(manager.getPageData(specification));");
         append(2, "} catch (Exception e) {");
@@ -135,11 +148,27 @@ public class SpringEntityControllerBaseWriter extends AbstractWriter {
         append(4, "manager.setPageable(request.getPageNumber(), request.getPageSize());");
         append(3, "}");
         append(3, "if (request.getSort() != null && !request.getSort().isEmpty()) {");
-        append(4, "manager.setSort(Sort.by((String[]) request.getSort().toArray()));");
+        append(4, "manager.setSort(Sort.by(request.getSort().toArray(new String[0])));");
         append(3, "}");
         append(3, "return ResponseEntity.ok(manager.getData(specification));");
         append(2, "} catch (Exception e) {");
         append(3, "e.printStackTrace();");
+        append(3, "return ServiceUtils.errorResponse(e);");
+        append(2, "}");
+        append(1, "}");
+        addImport(ImportDTO.class);
+        addImport(WriterUtils.IMPORTER_PACKAGE + "." + modelObject.getName() + "Importer");
+        addImport(ImportProcedure.class);
+        append(1, "public ResponseEntity<?> importData(ImportDTO request) {");
+        append(2, "try {");
+        append(3, "logger.log(Level.INFO, \"importData: {0}\", request);");
+        append(3, "Validation.validate(request);");
+        append(3, "" + modelObject.getName() + "Importer importer = new " + modelObject.getName() + "Importer(manager, request.getFile().getInputStream());");
+        append(3, "ImportProcedure procedure = ImportProcedure.of(request, importer);");
+        append(3, "procedure.execute();");
+        append(3, "logger.log(Level.INFO, \"importData: finished importing data.\");");
+        append(3, "return ResponseEntity.ok().build();");
+        append(2, "} catch (Exception e) {");
         append(3, "return ServiceUtils.errorResponse(e);");
         append(2, "}");
         append(1, "}");
