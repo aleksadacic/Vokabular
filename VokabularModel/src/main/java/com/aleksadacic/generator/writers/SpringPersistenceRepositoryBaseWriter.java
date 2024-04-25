@@ -29,18 +29,18 @@ public class SpringPersistenceRepositoryBaseWriter extends AbstractWriter {
         addImport(NoRepositoryBean.class);
         append(0, "@NoRepositoryBean");
         append(0, "@SuppressWarnings(\"unused\")");
-        append(0, "public interface " + modelObject.getName() + "RepositoryBase extends JpaRepository<" + modelObject.getName() + ", String>,  JpaSpecificationExecutor <" + modelObject.getName() + ">, DataEntityRepository<" + modelObject.getName() + "> {");
+        append(0, "public interface " + modelObject.getName() + "RepositoryBase extends JpaRepository<" + modelObject.getName() + "Entity, String>,  JpaSpecificationExecutor <" + modelObject.getName() + "Entity>, DataEntityRepository<" + modelObject.getName() + "Entity> {");
     }
 
     @Override
     public void writeClassContent() {
         for (ModelObjectAttribute attribute : modelObject.getAttributes()) {
             try {
-                append(1, "Optional<" + modelObject.getName() + "> findBy" + StringUtils.capitalize(attribute.getName()) + "(" + JavaUtils.getJavaType(TypeDefinition.valueOf(attribute.getType().toUpperCase())) + " " + attribute.getName() + ");");
+                append(1, "Optional<" + modelObject.getName() + "Entity> findBy" + StringUtils.capitalize(attribute.getName()) + "(" + JavaUtils.getJavaType(TypeDefinition.valueOf(attribute.getType().toUpperCase())) + " " + attribute.getName() + ");");
             } catch (TypeNotFoundException | IllegalArgumentException e) {
                 if (!attribute.getType().equals("primaryKey")) {
                     addImport(WriterUtils.DATA_PACKAGE + "." + attribute.getType().toLowerCase() + "." + attribute.getType());
-                    append(1, "Optional<" + modelObject.getName() + "> findBy" + StringUtils.capitalize(attribute.getName()) + "(" + attribute.getType() + " " + attribute.getName() + ");");
+                    append(1, "Optional<" + modelObject.getName() + "Entity> findBy" + StringUtils.capitalize(attribute.getName()) + "(" + attribute.getType() + " " + attribute.getName() + ");");
                 }
             }
         }

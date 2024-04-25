@@ -1,11 +1,14 @@
 package com.aleksadacic.vokabular.postgresql.entities.appuser;
 
 import com.aleksadacic.engine.exceptions.TurboException;
+import com.aleksadacic.engine.model.annotations.EntityPersistenceManager;
+import com.aleksadacic.engine.user.AppUser;
 import org.springframework.stereotype.Component;
 
 import java.util.Map;
 
 @Component
+@EntityPersistenceManager(businessClass = AppUser.class)
 public class AppUserPersistenceManager extends AppUserPersistenceManagerBase {
 
     @SuppressWarnings("unchecked")

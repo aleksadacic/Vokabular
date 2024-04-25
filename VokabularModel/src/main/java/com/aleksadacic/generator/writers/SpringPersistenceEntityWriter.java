@@ -28,7 +28,7 @@ public class SpringPersistenceEntityWriter extends AbstractWriter {
         append(0, "@Table(name = \"" + modelObject.getTableName() + "\")");
         append(0, "@NoArgsConstructor");
         append(0, "@AllArgsConstructor");
-        append(0, "public class " + modelObject.getName() + " implements PersistenceEntity {");
+        append(0, "public class " + modelObject.getName() + "Entity implements PersistenceEntity {");
     }
 
     @Override

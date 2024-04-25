@@ -31,6 +31,14 @@ public class SpringContext {
         throw new UserNotAuthenticatedException();
     }
 
+    public static AppUser getCurrentUserObject() {
+        try {
+            return getCurrentUser();
+        } catch (TurboException e) {
+            return null;
+        }
+    }
+
     public static <T extends BusinessEntity> PersistenceManager<T> getPersistenceManager(Class<T> clazz) {
         SpringPersistenceDispatcher dispatcher = SpringContextAware.getBean(SpringPersistenceDispatcher.class);
         return dispatcher.getPersistenceManager(clazz);

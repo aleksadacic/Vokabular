@@ -57,7 +57,7 @@ public class SpringEntityControllerBaseWriter extends AbstractWriter {
         append(1, "@Override");
         append(1, "public ResponseEntity<?> insert(" + modelObject.getName() + "DTO request) {");
         append(2, "try {");
-        append(3, "" + modelObject.getName() + " entity = request.convertToBusinessEntity();");
+        append(3, "" + modelObject.getName() + " entity = request.toBusinessEntity();");
         append(3, "if (entity == null) {");
         append(4, "throw new BadParametersException();");
         append(3, "}");
@@ -71,7 +71,7 @@ public class SpringEntityControllerBaseWriter extends AbstractWriter {
         append(1, "@Override");
         append(1, "public ResponseEntity<?> update(" + modelObject.getName() + "DTO request) {");
         append(2, "try {");
-        append(3, "" + modelObject.getName() + " entity = request.convertToBusinessEntity();");
+        append(3, "" + modelObject.getName() + " entity = request.toBusinessEntity();");
         append(3, "if (entity == null) {");
         append(4, "throw new ServiceException();");
         append(3, "}");

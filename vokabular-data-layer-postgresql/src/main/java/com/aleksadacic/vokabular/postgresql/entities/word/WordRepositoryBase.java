@@ -9,10 +9,10 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 @NoRepositoryBean
 @SuppressWarnings("unused")
-public interface WordRepositoryBase extends JpaRepository<Word, String>,  JpaSpecificationExecutor <Word>, DataEntityRepository<Word> {
-	Optional<Word> findByValue(String value);
-	Optional<Word> findByType(WordType type);
-	Optional<Word> findByUsage(String usage);
-	Optional<Word> findByMeaning(String meaning);
+public interface WordRepositoryBase extends JpaRepository<WordEntity, String>,  JpaSpecificationExecutor <WordEntity>, DataEntityRepository<WordEntity> {
+	Optional<WordEntity> findByValue(String value);
+	Optional<WordEntity> findByType(WordType type);
+	Optional<WordEntity> findByUsage(String usage);
+	Optional<WordEntity> findByMeaning(String meaning);
 
 }

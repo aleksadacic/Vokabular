@@ -8,7 +8,7 @@ import com.aleksadacic.creator.turbo.reader.ModelObjectAttribute;
 import com.aleksadacic.creator.turbo.utils.TypeDefinition;
 import com.aleksadacic.engine.datatypes.Id;
 import com.aleksadacic.engine.framework.AttributeDefinition;
-import com.aleksadacic.engine.framework.business.BusinessManager;
+import com.aleksadacic.engine.framework.business.AbstractBusinessManager;
 import com.aleksadacic.generator.utils.WriterUtils;
 
 import java.util.ArrayList;
@@ -24,16 +24,18 @@ public class SpringBusinessManagerBaseWriter extends JavaClassWriter {
 
     @Override
     public void writeClassHeader() {
-        addImport(BusinessManager.class);
-        addImport("com.aleksadacic.vokabular.business.AbstractBusinessManager");
-        append(0, "abstract class " + modelObject.getName() + "ManagerBase extends AbstractBusinessManager<" + modelObject.getName() + "> implements BusinessManager<" + modelObject.getName() + "> {");
+        addImport(AbstractBusinessManager.class);
+        append(0, "abstract class " + modelObject.getName() + "ManagerBase extends AbstractBusinessManager<" + modelObject.getName() + "> {");
     }
 
     @Override
     public void writeClassContent() {
         append(1, "private static final List<AttributeDefinition> definitions = new ArrayList<>();");
         appendBlankLine();
-        append(1, "protected " + modelObject.getName() + "ManagerBase() {}");
+        addImport("com.aleksadacic.vokabular.business.SpringContext");
+        append(1, "protected " + modelObject.getName() + "ManagerBase() {");
+        append(2, "super(SpringContext.getCurrentUserObject());");
+        append(1, "}");
         appendBlankLine();
         append(1, "static {");
         for (ModelObjectAttribute attribute : modelObject.getAttributes()) {

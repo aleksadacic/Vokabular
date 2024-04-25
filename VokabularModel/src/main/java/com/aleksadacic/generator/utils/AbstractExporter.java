@@ -48,7 +48,7 @@ public abstract class AbstractExporter implements Exporter {
     public void export(List<ExportObject> modelObjects, String path) throws Exception {
         for (ExportObject modelObject : modelObjects) {
             String fullPathName = WriterUtils.createPath(path, ((ModelObject) modelObject).getName().toLowerCase());
-            String fullPackageName = WriterUtils.getPackageFromPath(((ModelObject) modelObject).getName(), level);
+            String fullPackageName = WriterUtils.getPackageFromPath(((ModelObject) modelObject).getName(), AppLevel.valueOf(level));
 
             Writer writer = WriterUtils.getWriter(((ModelObject) modelObject), fullPackageName, writerClass);
             List<OutputElement> outputElements = writer.export();

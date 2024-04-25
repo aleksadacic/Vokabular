@@ -12,7 +12,7 @@ import com.aleksadacic.engine.framework.persistence.PersistenceEntity;
 @Table(name = "vok_word")
 @NoArgsConstructor
 @AllArgsConstructor
-public class Word implements PersistenceEntity {
+public class WordEntity implements PersistenceEntity {
 	@Id
 	@GeneratedValue(strategy = GenerationType.UUID)
 	private String id;

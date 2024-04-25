@@ -28,14 +28,14 @@ public class WriterUtils {
                 .newInstance(modelObject, fullPackageName);
     }
 
-    public static String getPackageFromPath(String entity, String level) {
-        if (level.equals(AppLevel.BUSINESS.getName())) {
+    public static String getPackageFromPath(String entity, AppLevel level) {
+        if (level == AppLevel.BUSINESS) {
             return BUSINESS_PACKAGE + "." + entity.toLowerCase();
         }
-        if (level.equals(AppLevel.DATA.getName())) {
+        if (level == AppLevel.DATA) {
             return DATA_PACKAGE + "." + entity.toLowerCase();
         }
-        if (level.equals(AppLevel.SERVICE.getName())) {
+        if (level == AppLevel.SERVICE) {
             return SERVICE_PACKAGE + "." + entity.toLowerCase();
         }
         return null;

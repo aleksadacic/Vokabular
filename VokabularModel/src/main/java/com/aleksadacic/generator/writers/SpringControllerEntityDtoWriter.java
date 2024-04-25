@@ -5,11 +5,12 @@ import com.aleksadacic.creator.turbo.exceptions.TypeNotFoundException;
 import com.aleksadacic.creator.turbo.reader.ModelObject;
 import com.aleksadacic.creator.turbo.reader.ModelObjectAttribute;
 import com.aleksadacic.engine.datatypes.Id;
-import com.aleksadacic.engine.framework.service.DTO;
+import com.aleksadacic.engine.framework.service.DataTransferObject;
 import com.aleksadacic.engine.utils.ConverterUtils;
 import com.aleksadacic.engine.utils.StringUtils;
 import com.aleksadacic.generator.utils.AbstractWriter;
 import com.aleksadacic.generator.utils.WriterUtils;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.lang.reflect.Array;
 import java.util.Collection;
@@ -43,7 +44,7 @@ public class SpringControllerEntityDtoWriter extends AbstractWriter {
         addImport("lombok.Data");
         addImport("org.springframework.stereotype.Component");
         addImport("org.springframework.context.annotation.Scope");
-        addImport(DTO.class);
+        addImport(DataTransferObject.class);
         addImport(WriterUtils.BUSINESS_PACKAGE + "." + modelObject.getName().toLowerCase() + "." + modelObject.getName());
         addImport("org.modelmapper.ModelMapper");
         addImport(ConverterUtils.class);
@@ -51,7 +52,7 @@ public class SpringControllerEntityDtoWriter extends AbstractWriter {
         append(0, "@Data");
         append(0, "@Component");
         append(0, "@Scope(\"prototype\")");
-        append(0, "public class " + modelObject.getName() + "DTO implements DTO<" + modelObject.getName() + "> {");
+        append(0, "public class " + modelObject.getName() + "DTO implements DataTransferObject<" + modelObject.getName() + "> {");
     }
 
     @Override
@@ -78,17 +79,33 @@ public class SpringControllerEntityDtoWriter extends AbstractWriter {
             }
             append(1, field.toString());
         }
+        appendBlankLine();
+        append(1, "@Override");
+        append(1, "public " + modelObject.getName() + " toBusinessEntity() {");
+        append(2, "ModelMapper modelMapper = new ModelMapper();");
+        append(2, "modelMapper");
+        append(4, ".typeMap(" + modelObject.getName() + "DTO.class, " + modelObject.getName() + ".class)");
         if (hasPrimaryKey) {
-            appendBlankLine();
-            append(1, "@Override");
-            append(1, "public " + modelObject.getName() + " convertToBusinessEntity() {");
-            append(2, "ModelMapper modelMapper = new ModelMapper();");
-            append(2, "modelMapper");
-            append(4, ".typeMap(" + modelObject.getName() + "DTO.class, " + modelObject.getName() + ".class)");
             append(4, ".addMappings(mapper -> mapper.using(ConverterUtils.STRING_TO_ID).map(" + modelObject.getName() + "DTO::getId, " + modelObject.getName() + "::setId));");
-            append(2, "return modelMapper.map(this, " + modelObject.getName() + ".class);");
-            append(1, "}");
+        } else {
+            append(4, ";");
         }
+        append(2, "return modelMapper.map(this, " + modelObject.getName() + ".class);");
+        append(1, "}");
+        appendBlankLine();
+        addImport(ObjectMapper.class);
+        append(1, "@Override");
+        append(1, "public String toJson() {");
+        append(2, "try {");
+        append(3, "return new ObjectMapper().writeValueAsString(this);");
+        append(2, "} catch (Exception e) {");
+        if (hasPrimaryKey) {
+            append(3, "return id.getValue();");
+        } else {
+            append(3, "{}");
+        }
+        append(2, "}");
+        append(1, "}");
         append(0, "}");
     }
 

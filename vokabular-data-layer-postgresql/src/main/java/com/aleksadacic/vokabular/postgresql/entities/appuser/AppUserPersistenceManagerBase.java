@@ -1,9 +1,9 @@
 package com.aleksadacic.vokabular.postgresql.entities.appuser;
 
 import com.aleksadacic.engine.datatypes.Id;
+import com.aleksadacic.engine.framework.persistence.AbstractPersistenceManager;
 import com.aleksadacic.engine.framework.persistence.DataEntityRepository;
 import com.aleksadacic.engine.user.AppUser;
-import com.aleksadacic.vokabular.postgresql.AbstractPersistenceManager;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;

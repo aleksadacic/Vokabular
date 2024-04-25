@@ -5,13 +5,15 @@ import java.util.ArrayList;
 import java.util.List;
 import com.aleksadacic.vokabular.business.entities.wordtype.WordType;
 import com.aleksadacic.engine.datatypes.Id;
-import com.aleksadacic.vokabular.business.AbstractBusinessManager;
-import com.aleksadacic.engine.framework.business.BusinessManager;
+import com.aleksadacic.vokabular.business.SpringContext;
+import com.aleksadacic.engine.framework.business.AbstractBusinessManager;
 
-abstract class WordManagerBase extends AbstractBusinessManager<Word> implements BusinessManager<Word> {
+abstract class WordManagerBase extends AbstractBusinessManager<Word> {
 	private static final List<AttributeDefinition> definitions = new ArrayList<>();
 
-	protected WordManagerBase() {}
+	protected WordManagerBase() {
+		super(SpringContext.getCurrentUserObject());
+	}
 
 	static {
 		definitions.add(new AttributeDefinition("id", Id.class, false));

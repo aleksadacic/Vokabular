@@ -48,7 +48,7 @@ public abstract class AbstractEnumExporter implements Exporter {
     public void export(List<ExportObject> modelObjects, String path) throws Exception {
         for (ExportObject modelObject : modelObjects) {
             String fullPathName = WriterUtils.createPath(path, ((ModelEnumObject) modelObject).getName().toLowerCase());
-            String fullPackageName = WriterUtils.getPackageFromPath(((ModelEnumObject) modelObject).getName(), level);
+            String fullPackageName = WriterUtils.getPackageFromPath(((ModelEnumObject) modelObject).getName(), AppLevel.valueOf(level));
 
             Writer writer = WriterUtils.getWriter(((ModelEnumObject) modelObject), fullPackageName, writerClass);
             List<OutputElement> outputElements = writer.export();
