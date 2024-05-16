@@ -1,14 +1,14 @@
-package com.aleksadacic.vokabular.vokabulardataimport.importers;
-
-import com.aleksadacic.engine.dataimport.EntityImporter;
-import com.aleksadacic.engine.dataimport.ImportData;
-import com.aleksadacic.engine.dataimport.ImportRow;
-import com.aleksadacic.engine.exceptions.TurboException;
-import com.aleksadacic.engine.framework.business.BusinessManager;
-import com.aleksadacic.vokabular.business.entities.word.Word;
-import com.aleksadacic.vokabular.business.entities.word.WordManager;
+package com.aleksadacic.vokabular.vokabulardataimport.importers.word;
 
 import java.io.InputStream;
+
+import com.aleksadacic.vokabular.business.entities.word.WordManager;
+import com.aleksadacic.vokabular.business.entities.word.Word;
+import com.aleksadacic.engine.framework.business.BusinessManager;
+import com.aleksadacic.engine.exceptions.TurboException;
+import com.aleksadacic.engine.dataimport.ImportRow;
+import com.aleksadacic.engine.dataimport.ImportData;
+import com.aleksadacic.engine.dataimport.EntityImporter;
 
 public class WordImporter implements EntityImporter<Word> {
     private final WordManager manager;

@@ -9,5 +9,6 @@ public class SpringPersistenceEntity extends AbstractExporter {
     public SpringPersistenceEntity() {
         super(SpringPersistenceEntityWriter.class, AppLevel.DATA.getName());
         setOverwrite(true);
+        setObjectSuffix("Entity");
     }
 }

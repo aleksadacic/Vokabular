@@ -1,6 +1,5 @@
 package com.aleksadacic.vokabular.postgresql.entities.appuser;
 
-import com.aleksadacic.engine.exceptions.TurboException;
 import com.aleksadacic.engine.model.annotations.EntityPersistenceManager;
 import com.aleksadacic.engine.user.AppUser;
 import org.springframework.stereotype.Component;
@@ -13,7 +12,7 @@ public class AppUserPersistenceManager extends AppUserPersistenceManagerBase {
 
     @SuppressWarnings("unchecked")
     @Override
-    public <X> X execute(com.aleksadacic.engine.user.AppUser appUser, Class<com.aleksadacic.engine.user.AppUser> clazz, String executeId, Class<X> returnType, com.aleksadacic.engine.user.AppUser entity, Map<String, Object> additionalData) throws TurboException {
+    public <X> X execute(com.aleksadacic.engine.user.AppUser appUser, Class<com.aleksadacic.engine.user.AppUser> clazz, String executeId, Class<X> returnType, com.aleksadacic.engine.user.AppUser entity, Map<String, Object> additionalData) {
         if (executeId.equals("REGISTER_USER")) {
             AppUserEntity user = convertToPersistenceEntity(appUser);
             user.setPassword(entity.getPassword());

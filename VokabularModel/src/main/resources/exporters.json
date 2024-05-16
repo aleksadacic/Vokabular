@@ -9,6 +9,7 @@
       "com.aleksadacic.generator.exporters.SpringBusinessManagerBase",
       "com.aleksadacic.generator.exporters.SpringEntityAttribute",
       "com.aleksadacic.generator.exporters.SpringEntitySpecification",
+      "com.aleksadacic.generator.exporters.SpringEntitySpecificationCustom",
       "com.aleksadacic.generator.exporters.SpringEntitySpecificationBase",
       "com.aleksadacic.generator.exporters.SpringBusinessEnum"
     ]
@@ -34,6 +35,13 @@
       "com.aleksadacic.generator.exporters.SpringPersistenceRepository",
       "com.aleksadacic.generator.exporters.SpringPersistenceRepositoryBase",
       "com.aleksadacic.generator.exporters.SpringPersistenceEnum"
+    ]
+  },
+  {
+    "name": "importExporters",
+    "outputPath": "F:/Workspaces/IdeaProjects/Vokabular/vokabular-data-import/src/main/java/com/aleksadacic/vokabular/vokabulardataimport/importers",
+    "exporters": [
+      "com.aleksadacic.generator.exporters.SpringEntityImporter"
     ]
   }
 ]

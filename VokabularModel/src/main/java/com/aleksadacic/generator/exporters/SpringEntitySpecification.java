@@ -9,6 +9,6 @@ public class SpringEntitySpecification extends AbstractExporter {
     public SpringEntitySpecification() {
         super(SpringEntitySpecificationWriter.class, AppLevel.BUSINESS.getName());
         setObjectSuffix("Specification");
-        setOverwrite(false);
+        setOverwrite(true);
     }
 }

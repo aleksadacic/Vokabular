@@ -1,4 +1,4 @@
-package com.aleksadacic.vokabular.controller.entities.word;
+package com.aleksadacic.vokabular.controller.entities.phrase;
 
 import org.springframework.http.MediaType;
 import org.springframework.http.HttpHeaders;
@@ -13,22 +13,22 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.data.domain.Sort;
 import org.springframework.beans.factory.annotation.Autowired;
 import jakarta.validation.constraints.NotNull;
-import com.aleksadacic.vokabular.business.entities.word.WordSpecification;
-import com.aleksadacic.vokabular.vokabulardataimport.importers.word.WordImporter;
-import com.aleksadacic.vokabular.business.entities.word.WordManager;
+import com.aleksadacic.vokabular.business.entities.phrase.PhraseSpecification;
+import com.aleksadacic.vokabular.vokabulardataimport.importers.phrase.PhraseImporter;
+import com.aleksadacic.vokabular.business.entities.phrase.PhraseManager;
 import com.aleksadacic.engine.framework.service.ServiceUtils;
 import com.aleksadacic.engine.exceptions.ServiceException;
 import com.aleksadacic.engine.exceptions.DataNotFoundException;
 import com.aleksadacic.engine.exceptions.BadParametersException;
 import com.aleksadacic.engine.datatypes.Id;
-import com.aleksadacic.vokabular.business.entities.word.Word;
+import com.aleksadacic.vokabular.business.entities.phrase.Phrase;
 import com.aleksadacic.engine.framework.service.EntityController;
 
-abstract class WordControllerBase implements EntityController<WordDTO, WordSearchDTO> {
-	private static final Logger logger = Logger.getLogger(WordControllerBase.class.getSimpleName());
+abstract class PhraseControllerBase implements EntityController<PhraseDTO, PhraseSearchDTO> {
+	private static final Logger logger = Logger.getLogger(PhraseControllerBase.class.getSimpleName());
 
 	@Autowired
-	protected WordManager manager;
+	protected PhraseManager manager;
 	@Override
 	public ResponseEntity<?> create() {
 		try {
@@ -39,9 +39,9 @@ abstract class WordControllerBase implements EntityController<WordDTO, WordSearc
 		}
 	}
 	@Override
-	public ResponseEntity<?> insert(WordDTO request) {
+	public ResponseEntity<?> insert(PhraseDTO request) {
 		try {
-			Word entity = request.toBusinessEntity();
+			Phrase entity = request.toBusinessEntity();
 			if (entity == null) {
 				throw new BadParametersException();
 			}
@@ -53,9 +53,9 @@ abstract class WordControllerBase implements EntityController<WordDTO, WordSearc
 		}
 	}
 	@Override
-	public ResponseEntity<?> update(WordDTO request) {
+	public ResponseEntity<?> update(PhraseDTO request) {
 		try {
-			Word entity = request.toBusinessEntity();
+			Phrase entity = request.toBusinessEntity();
 			if (entity == null) {
 				throw new ServiceException();
 			}
@@ -69,7 +69,7 @@ abstract class WordControllerBase implements EntityController<WordDTO, WordSearc
 	@Override
 	public ResponseEntity<?> delete(@NotNull String id) {
 		try {
-			Optional<Word> entity = manager.getById(Id.of(id));
+			Optional<Phrase> entity = manager.getById(Id.of(id));
 			if (entity.isEmpty()) {
 				throw new DataNotFoundException();
 			}
@@ -81,12 +81,12 @@ abstract class WordControllerBase implements EntityController<WordDTO, WordSearc
 		}
 	}
 	@Override
-	public ResponseEntity<?> search(WordSearchDTO request) {
+	public ResponseEntity<?> search(PhraseSearchDTO request) {
 		try {
 			if (request.getPageNumber() == null || request.getPageSize() == null) {
 				throw new BadParametersException("pageNumber", "pageSize");
 			}
-			WordSpecification specification = request.buildSpecification();
+			PhraseSpecification specification = request.buildSpecification();
 			if (request.getSort() != null && !request.getSort().isEmpty()) {
 				manager.setSort(Sort.by(request.getSort().toArray(new String[0])));
 			}
@@ -106,9 +106,9 @@ abstract class WordControllerBase implements EntityController<WordDTO, WordSearc
 		}
 	}
 	@Override
-	public ResponseEntity<?> count(WordSearchDTO request) {
+	public ResponseEntity<?> count(PhraseSearchDTO request) {
 		try {
-			WordSpecification specification = request.buildSpecification();
+			PhraseSpecification specification = request.buildSpecification();
 			return ResponseEntity.ok(manager.count(specification));
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -125,9 +125,9 @@ abstract class WordControllerBase implements EntityController<WordDTO, WordSearc
 		}
 	}
 	@Override
-	public ResponseEntity<?> getData(WordSearchDTO request) {
+	public ResponseEntity<?> getData(PhraseSearchDTO request) {
 		try {
-			WordSpecification specification = request.buildSpecification();
+			PhraseSpecification specification = request.buildSpecification();
 			if (request.getPageNumber() != null && request.getPageSize() != null) {
 				manager.setPageable(request.getPageNumber(), request.getPageSize());
 			}
@@ -144,7 +144,7 @@ abstract class WordControllerBase implements EntityController<WordDTO, WordSearc
 		try {
 			logger.log(Level.INFO, "importData: {0}", request);
 			Validation.validate(request);
-			WordImporter importer = new WordImporter(manager, request.getFile().getInputStream());
+			PhraseImporter importer = new PhraseImporter(manager, request.getFile().getInputStream());
 			ImportProcedure procedure = ImportProcedure.of(request, importer);
 			procedure.execute();
 			logger.log(Level.INFO, "importData: finished importing data.");
@@ -158,7 +158,7 @@ abstract class WordControllerBase implements EntityController<WordDTO, WordSearc
 		try {
 			logger.log(Level.INFO, "importDataWithReport: {0}", request);
 			Validation.validate(request);
-			WordImporter importer = new WordImporter(manager, request.getFile().getInputStream());
+			PhraseImporter importer = new PhraseImporter(manager, request.getFile().getInputStream());
 			ImportProcedure procedure = ImportProcedure.of(request, importer);
 			procedure.execute();
 			logger.log(Level.INFO, "importDataWithReport: finished importing data.");

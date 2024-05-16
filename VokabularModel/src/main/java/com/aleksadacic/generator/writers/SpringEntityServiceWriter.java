@@ -4,6 +4,7 @@ import com.aleksadacic.creator.turbo.reader.ModelObject;
 import com.aleksadacic.engine.dataimport.ImportDTO;
 import com.aleksadacic.engine.utils.StringUtils;
 import com.aleksadacic.generator.utils.AbstractWriter;
+import org.springframework.context.annotation.Scope;
 
 import java.util.logging.Logger;
 
@@ -14,8 +15,10 @@ public class SpringEntityServiceWriter extends AbstractWriter {
 
     @Override
     public void writeClassHeader() {
+        addImport(Scope.class);
         append(0, "@RestController");
         append(0, "@RequestMapping(\"/api/" + StringUtils.decapitalize(modelObject.getName()) + "\")");
+        append(0, "@Scope(\"prototype\")");
         append(0, "public class " + modelObject.getName() + "Service extends " + modelObject.getName() + "Controller {");
     }
 
@@ -75,6 +78,12 @@ public class SpringEntityServiceWriter extends AbstractWriter {
         addImport(ImportDTO.class);
         append(1, "public ResponseEntity<?> importData(ImportDTO request) {");
         append(2, "return super.importData(request);");
+        append(1, "}");
+        appendBlankLine();
+        append(1, "@Override");
+        append(1, "@PostMapping(value = \"/importDataWithReport\", produces = MediaType.APPLICATION_PDF_VALUE)");
+        append(1, "public ResponseEntity<byte[]> importDataWithReport(ImportDTO request) {");
+        append(2, "return super.importDataWithReport(request);");
         append(1, "}");
         append(0, "}");
 

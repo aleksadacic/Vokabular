@@ -38,6 +38,9 @@ public class WriterUtils {
         if (level == AppLevel.SERVICE) {
             return SERVICE_PACKAGE + "." + entity.toLowerCase();
         }
+        if (level == AppLevel.IMPORT) {
+            return IMPORTER_PACKAGE + "." + entity.toLowerCase();
+        }
         return null;
     }
 

@@ -1,4 +1,4 @@
-package com.aleksadacic.vokabular.controller.entities.word;
+package com.aleksadacic.vokabular.controller.entities.phrase;
 
 import com.aleksadacic.engine.dataimport.ImportDTO;
 import org.springframework.web.bind.annotation.*;
@@ -8,9 +8,9 @@ import org.springframework.lang.NonNull;
 import org.springframework.context.annotation.Scope;
 
 @RestController
-@RequestMapping("/api/word")
+@RequestMapping("/api/phrase")
 @Scope("prototype")
-public class WordService extends WordController {
+public class PhraseService extends PhraseController {
 	@Override
 	@PostMapping(value = "/create", produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<?> create() {
@@ -18,12 +18,12 @@ public class WordService extends WordController {
 	}
 	@Override
 	@PostMapping(value = "/insert", produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<?> insert(@RequestBody WordDTO request) {
+	public ResponseEntity<?> insert(@RequestBody PhraseDTO request) {
 		return super.insert(request);
 	}
 	@Override
 	@PostMapping(value = "/update", produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<?> update(@RequestBody WordDTO request) {
+	public ResponseEntity<?> update(@RequestBody PhraseDTO request) {
 		return super.update(request);
 	}
 	@Override
@@ -33,7 +33,7 @@ public class WordService extends WordController {
 	}
 	@Override
 	@PostMapping(value = "/search", produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<?> search(@RequestBody WordSearchDTO request) {
+	public ResponseEntity<?> search(@RequestBody PhraseSearchDTO request) {
 		return super.search(request);
 	}
 	@Override
@@ -43,7 +43,7 @@ public class WordService extends WordController {
 	}
 	@Override
 	@PostMapping(value = "/count", produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<?> count(WordSearchDTO request) {
+	public ResponseEntity<?> count(PhraseSearchDTO request) {
 		return super.count(request);
 	}
 	@Override
@@ -53,7 +53,7 @@ public class WordService extends WordController {
 	}
 	@Override
 	@PostMapping(value = "/getData", produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<?> getData(WordSearchDTO request) {
+	public ResponseEntity<?> getData(PhraseSearchDTO request) {
 		return super.getData(request);
 	}
 	@Override

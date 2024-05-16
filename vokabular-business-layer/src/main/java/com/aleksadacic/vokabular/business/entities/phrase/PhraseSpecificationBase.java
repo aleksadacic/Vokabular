@@ -1,4 +1,4 @@
-package com.aleksadacic.vokabular.business.entities.word;
+package com.aleksadacic.vokabular.business.entities.phrase;
 
 import org.springframework.data.jpa.domain.Specification;
 import com.aleksadacic.vokabular.business.BusinessSpecification;
@@ -7,43 +7,43 @@ import com.aleksadacic.engine.framework.querying.Filter;
 import com.aleksadacic.engine.framework.business.SpecificationContainer;
 import com.aleksadacic.engine.framework.business.BusinessAttribute;
 
-abstract class WordSpecificationBase implements SpecificationContainer<Word> {
-	private Specification<Word> specification;
+abstract class PhraseSpecificationBase implements SpecificationContainer<Phrase> {
+	private Specification<Phrase> specification;
 
-	protected WordSpecificationBase(Filter filter) {
+	protected PhraseSpecificationBase(Filter filter) {
 		this.specification = Specification.where(new BusinessSpecification<>(filter));
 	}
 
-	public WordSpecification and(BusinessAttribute key, Object value) {
+	public PhraseSpecification and(BusinessAttribute key, Object value) {
 		specification = specification.and(new BusinessSpecification<>(new Filter(key, value)));
-		return (WordSpecification) this;
+		return (PhraseSpecification) this;
 	}
 
-	public WordSpecification and(BusinessAttribute key, SearchOperator operation, Object value) {
+	public PhraseSpecification and(BusinessAttribute key, SearchOperator operation, Object value) {
 		specification = specification.and(new BusinessSpecification<>(new Filter(key, operation, value)));
-		return (WordSpecification) this;
+		return (PhraseSpecification) this;
 	}
 
-	public WordSpecification and(WordSpecification userSpec) {
+	public PhraseSpecification and(PhraseSpecification userSpec) {
 		specification = specification.and(userSpec.getSpecification());
-		return (WordSpecification) this;
+		return (PhraseSpecification) this;
 	}
 
-	public WordSpecification or(BusinessAttribute key, Object value) {
+	public PhraseSpecification or(BusinessAttribute key, Object value) {
 		specification = specification.or(new BusinessSpecification<>(new Filter(key, value)));
-		return (WordSpecification) this;
+		return (PhraseSpecification) this;
 	}
 
-	public WordSpecification or(BusinessAttribute key, SearchOperator operation, Object value) {
+	public PhraseSpecification or(BusinessAttribute key, SearchOperator operation, Object value) {
 		specification = specification.or(new BusinessSpecification<>(new Filter(key, operation, value)));
-		return (WordSpecification) this;
+		return (PhraseSpecification) this;
 	}
 
-	public WordSpecification or(WordSpecification userSpec) {
+	public PhraseSpecification or(PhraseSpecification userSpec) {
 		specification = specification.or(userSpec.getSpecification());
-		return (WordSpecification) this;
+		return (PhraseSpecification) this;
 	}
 
 	@Override
-	public Specification<Word> getSpecification() { return specification; }
+	public Specification<Phrase> getSpecification() { return specification; }
 }
