@@ -46,6 +46,7 @@ public class ModelClassToJsonExporter {
             attribute.put("unique", attrUtils.extractUnique());
             attribute.put("tableColumn", attrUtils.extractTableColumn());
             attribute.put("enumType", attrUtils.extractEnumType());
+            attribute.put("collection", attrUtils.extractCollection());
             attributes.add(attribute);
         }
     }

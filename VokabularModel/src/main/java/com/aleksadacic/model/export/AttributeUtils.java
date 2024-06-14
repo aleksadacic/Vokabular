@@ -66,4 +66,8 @@ public class AttributeUtils {
     public boolean extractEnumType() {
         return field.getType().isEnum();
     }
+
+    public boolean extractCollection() {
+        return field.getAnnotation(ModelAttribute.class).collection();
+    }
 }
